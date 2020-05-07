@@ -1,0 +1,30 @@
+{
+  "name": "webpack-build-miniprogram",
+  "version": "1.0.0",
+  "description": "基于webpack的小程序构建策略",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Oc-master/webpack-build-miniprogram.git"
+  },
+  "keywords": [
+    "webpack"
+  ],
+  "author": "O_c",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Oc-master/webpack-build-miniprogram/issues"
+  },
+  "homepage": "https://github.com/Oc-master/webpack-build-miniprogram#readme",
+  "devDependencies": {
+    "cz-conventional-changelog": "^3.2.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}

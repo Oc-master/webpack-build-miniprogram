@@ -1,9 +1,14 @@
 const path = require('path');
 const webpack = require('webpack');
 
+const EntryExtractPlugin = require('./entry_extract_plugin');
+
 const PROJECT_PATH = process.cwd();
+const [OPERATING_ENV] = process.argv.slice(2);
 
 module.exports = {
+  mode: OPERATING_ENV,
+  devtool: OPERATING_ENV === 'production' ? 'source-map' : 'inline-source-map',
   context: path.resolve(PROJECT_PATH, 'src'),
   entry: {
     app: './app.js',
@@ -37,11 +42,12 @@ module.exports = {
     ],
   },
   plugins: [
+    new EntryExtractPlugin(),
     new webpack.BannerPlugin({
       raw: true,
       include: 'app.js',
       banner: 'import commons from "./commons";\nimport manifest from "./manifest";'
-    })
+    }),
   ],
   optimization: {
     splitChunks: {
@@ -58,5 +64,10 @@ module.exports = {
     runtimeChunk: {
       name: 'manifest',
     },
+  },
+  watch: OPERATING_ENV === 'production' ? false : true,
+  watchOptions: {
+    aggregateTimeout: 800,
+    ignored: /node_modules/,
   },
 };

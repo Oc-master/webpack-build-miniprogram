@@ -11,7 +11,7 @@ const [OPERATING_ENV] = process.argv.slice(2);
 
 OPERATING_ENV === 'production' && shell.rm('-rf', path.resolve(PROJECT_PATH, 'dist'));
 
-webpack(config, () => {
+webpack(config, (err, stats) => {
   if (err) {
     console.log(chalk.red(err.stack || err));
     if (err.details) {

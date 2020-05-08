@@ -27,6 +27,11 @@ module.exports = {
     path: path.resolve(PROJECT_PATH, 'dist'),
     globalObject: 'global',
   },
+  resolve: {
+    alias: {
+      '@': path.resolve(PROJECT_PATH, 'src'),
+    },
+  },
   module: {
     rules: [
       {

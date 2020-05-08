@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const EntryExtractPlugin = require('./entry_extract_plugin');
 
@@ -71,6 +72,40 @@ module.exports = {
       banner: 'import commons from "./commons";\nimport manifest from "./manifest";'
     }),
     new MiniCssExtractPlugin({ filename: `[name].${PLATFORM_DICT[platform]}` }),
+    new CopyPlugin([
+      {
+        from: 'assets/',
+        toType: 'dir',
+      },
+      {
+        from: '**/*.wxml',
+        toType: 'dir',
+      },
+      {
+        from: '**/*.wxss',
+        toType: 'dir',
+      },
+      {
+        from: '**/*.axml',
+        toType: 'dir',
+      },
+      {
+        from: '**/*.acss',
+        toType: 'dir',
+      },
+      {
+        from: '**/*.swan',
+        toType: 'dir',
+      },
+      {
+        from: '**/*.css',
+        toType: 'dir',
+      },
+      {
+        from: '**/*.json',
+        toType: 'dir',
+      },
+    ]),
   ],
   optimization: {
     splitChunks: {

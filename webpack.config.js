@@ -4,8 +4,15 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const EntryExtractPlugin = require('./entry_extract_plugin');
 
+const PLATFORM_DICT = {
+  wx: 'wxss',
+  my: 'acss',
+  swan: 'css',
+};
 const PROJECT_PATH = process.cwd();
-const [OPERATING_ENV] = process.argv.slice(2);
+const { OPERATING_ENV } = process.env;
+const [platformStr] = process.argv.slice(2);
+const [_, platform] = platformStr.split('.');
 
 module.exports = {
   mode: OPERATING_ENV,
@@ -63,6 +70,7 @@ module.exports = {
       include: 'app.js',
       banner: 'import commons from "./commons";\nimport manifest from "./manifest";'
     }),
+    new MiniCssExtractPlugin({ filename: `[name].${PLATFORM_DICT[platform]}` }),
   ],
   optimization: {
     splitChunks: {

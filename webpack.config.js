@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const EntryExtractPlugin = require('./entry_extract_plugin');
 
@@ -38,6 +39,20 @@ module.exports = {
           presets: ['@babel/preset-env'],
           plugins: ['@babel/plugin-transform-runtime'],
         },
+      },
+      {
+        test: /\.less$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          {
+            loader: 'css-loader',
+          },
+          {
+            loader: 'less-loader',
+          },
+        ],
       },
     ],
   },

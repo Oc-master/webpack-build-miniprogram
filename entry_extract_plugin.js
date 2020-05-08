@@ -18,6 +18,7 @@ class EntryExtractPlugin {
    */
   getPages() {
     const app = path.resolve(this.appContext, 'app.json');
+    // FIXME: 未做 app.json 文件读取失败处理
     const content = fs.readFileSync(app, 'utf8');
     const { pages = [], subpackages = [] } = JSON.parse(content);
     const { length: pagesLength } = pages;

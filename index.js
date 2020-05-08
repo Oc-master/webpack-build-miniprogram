@@ -7,7 +7,7 @@ const chalk = require('chalk');
 const config = require('./webpack.config');
 
 const PROJECT_PATH = process.cwd();
-const [OPERATING_ENV] = process.argv.slice(2);
+const { OPERATING_ENV } = process.env;
 
 OPERATING_ENV === 'production' && shell.rm('-rf', path.resolve(PROJECT_PATH, 'dist'));
 

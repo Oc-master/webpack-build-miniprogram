@@ -1,8 +1,9 @@
 const path = require('path');
 const webpack = require('webpack');
+const pxtorpx = require('postcss-pxtorpx');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-const pxtorpx = require('postcss-pxtorpx');
+const StylelintPlugin = require('stylelint-webpack-plugin');
 
 const EntryExtractPlugin = require('./entry_extract_plugin');
 
@@ -123,6 +124,10 @@ module.exports = {
         toType: 'dir',
       },
     ]),
+    new StylelintPlugin({
+      files: '**/*.(le|wx|as|c)ss',
+      fix: true,
+    }),
   ],
   optimization: {
     splitChunks: {

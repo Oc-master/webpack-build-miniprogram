@@ -50,6 +50,8 @@
     "postcss-pxtorpx": "^1.0.0",
     "replace-ext": "^2.0.0",
     "shelljs": "^0.8.4",
+    "stylelint": "^13.3.3",
+    "stylelint-webpack-plugin": "^2.0.0",
     "webpack": "^4.43.0"
   }
 }

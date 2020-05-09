@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const pxtorpx = require('postcss-pxtorpx');
 
 const EntryExtractPlugin = require('./entry_extract_plugin');
 
@@ -61,6 +62,17 @@ module.exports = {
           },
           {
             loader: 'css-loader',
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: [
+                pxtorpx({
+                  multiplier: 1,
+                  propList: ['*'],
+                }),
+              ],
+            },
           },
           {
             loader: 'less-loader',

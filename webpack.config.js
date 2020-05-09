@@ -125,7 +125,7 @@ module.exports = {
       },
     ]),
     new StylelintPlugin({
-      files: '**/*.(le|wx|as|c)ss',
+      files: '**/*.(le|wx|ac|c)ss',
       fix: true,
     }),
   ],

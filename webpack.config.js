@@ -14,7 +14,7 @@ const PLATFORM_DICT = {
 };
 const PROJECT_PATH = process.cwd();
 const { OPERATING_ENV } = process.env;
-const [platformStr] = process.argv.slice(2);
+const [platformStr = 'platform.wx'] = process.argv.slice(2);
 const [_, platform] = platformStr.split('.');
 
 module.exports = {

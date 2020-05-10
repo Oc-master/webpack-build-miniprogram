@@ -1,0 +1,58 @@
+{
+  "name": "webpack-build-miniprogram",
+  "version": "1.0.0",
+  "description": "基于webpack的小程序构建策略",
+  "main": "index.js",
+  "bin": {
+    "medusa-server": "index.js"
+  },
+  "scripts": {
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Oc-master/webpack-build-miniprogram.git"
+  },
+  "keywords": [
+    "webpack"
+  ],
+  "author": "O_c",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Oc-master/webpack-build-miniprogram/issues"
+  },
+  "homepage": "https://github.com/Oc-master/webpack-build-miniprogram#readme",
+  "devDependencies": {
+    "cz-conventional-changelog": "^3.2.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "dependencies": {
+    "@babel/core": "7.0.0",
+    "@babel/plugin-transform-runtime": "7.9.0",
+    "@babel/preset-env": "7.9.5",
+    "@babel/runtime": "7.9.2",
+    "babel-loader": "^8.1.0",
+    "chalk": "^4.0.0",
+    "copy-webpack-plugin": "^5.1.1",
+    "css-loader": "^3.5.3",
+    "eslint": "^6.8.0",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-import": "^2.20.2",
+    "less": "^3.11.1",
+    "less-loader": "^6.1.0",
+    "lodash": "^4.17.15",
+    "mini-css-extract-plugin": "^0.9.0",
+    "postcss-loader": "^3.0.0",
+    "postcss-pxtorpx": "^1.0.0",
+    "replace-ext": "^2.0.0",
+    "shelljs": "^0.8.4",
+    "stylelint": "^13.3.3",
+    "stylelint-webpack-plugin": "^2.0.0",
+    "webpack": "^4.43.0"
+  }
+}

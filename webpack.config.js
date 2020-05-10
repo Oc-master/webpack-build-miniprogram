@@ -123,6 +123,14 @@ module.exports = {
         from: '**/*.json',
         toType: 'dir',
       },
+      {
+        from: '**/*.wxs',
+        toType: 'dir',
+      },
+      {
+        from: '**/*.sjs',
+        toType: 'dir',
+      },
     ]),
     new StylelintPlugin({
       files: '**/*.(le|wx|ac|c)ss',

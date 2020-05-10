@@ -19,7 +19,7 @@ const [_, platform] = platformStr.split('.');
 
 module.exports = {
   mode: OPERATING_ENV,
-  devtool: OPERATING_ENV === 'production' ? 'hidden-source-map' : 'inline-source-map',
+  devtool: OPERATING_ENV === 'production' ? '' : 'inline-source-map',
   context: path.resolve(PROJECT_PATH, 'src'),
   entry: {
     app: './app.js',

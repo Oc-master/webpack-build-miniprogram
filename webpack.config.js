@@ -18,7 +18,7 @@ const [platformStr = 'platform.wx'] = process.argv.slice(2);
 const [_, platform] = platformStr.split('.');
 
 module.exports = {
-  mode: OPERATING_ENV,
+  mode: OPERATING_ENV === 'production' ? 'production' : 'development',
   devtool: OPERATING_ENV === 'production' ? '' : 'inline-source-map',
   context: path.resolve(PROJECT_PATH, 'src'),
   entry: {
@@ -137,7 +137,7 @@ module.exports = {
       files: '**/*.(le|wx|ac|c)ss',
       fix: true,
     }),
-    new webpack.DefinePlugin({ $env: OPERATING_ENV }),
+    new webpack.DefinePlugin({ $env: JSON.stringify(OPERATING_ENV) }),
   ],
   optimization: {
     splitChunks: {

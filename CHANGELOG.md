@@ -1,3 +1,21 @@
+## 1.0.1 (2020-05-14)
+
+
+### Bug Fixes
+
+* **webpack.config.js:** 修复assets文件夹复制至目标目录层级不正确问题 ([eed8706](https://github.com/Oc-master/webpack-build-miniprogram/commit/eed8706b1926e84967883359449eab7d248f80fe))
+* **webpack.config.js:** 修复全局变量$env无法正常读取问题 ([832f69d](https://github.com/Oc-master/webpack-build-miniprogram/commit/832f69dcad3d450affcf26c1281d767f7e96882f))
+
+
+### Features
+
+* **package.json:** 添加eslint-import-resolver-alias依赖包 解决Eslint对自定义路径报错问题 ([f05a6f1](https://github.com/Oc-master/webpack-build-miniprogram/commit/f05a6f13ca1aa2a19c1ede4b0039030ce69d97c2))
+* **webpack.config.js:** 将环境变量添加为全局可访问变量 ([732744c](https://github.com/Oc-master/webpack-build-miniprogram/commit/732744c2e3e75fdd45604b9613d9808ee496109e))
+* **webpack.config.js:** 添加脚本文件复制功能 ([7e02191](https://github.com/Oc-master/webpack-build-miniprogram/commit/7e0219135b6ad718e1dc54f49967f02cbc0224df))
+* **webpack.config.js:** 设置平台默认值为wx 默认编译为微信小程序 ([3007552](https://github.com/Oc-master/webpack-build-miniprogram/commit/30075520d80b1fb208a9d6e48d1c0bdcb00119b4))
+
+
+
 # 1.0.0 (2020-05-10)
 
 

@@ -137,6 +137,7 @@ module.exports = {
       files: '**/*.(le|wx|ac|c)ss',
       fix: true,
     }),
+    new webpack.DefinePlugin({ $env: OPERATING_ENV }),
   ],
   optimization: {
     splitChunks: {

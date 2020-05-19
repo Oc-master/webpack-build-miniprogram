@@ -67,7 +67,7 @@ class EntryExtractPlugin {
     const jsPath = replaceExt(absolutePath, '.js');
     const isQualification = fs.existsSync(jsPath);
     if (!isQualification) {
-      console.log(chalk.red(`ERROR: in "${replaceExt(relativePath, '.js')}": 当前文件缺失`));
+      console.log(chalk.red(`ERROR in "${replaceExt(relativePath, '.js')}": 当前文件缺失`));
       process.exit();
     }
     const isExistence = entries.includes((entry) => entry === absolutePath);
@@ -78,7 +78,7 @@ class EntryExtractPlugin {
     const jsonPath = replaceExt(absolutePath, '.json');
     const isJsonExistence = fs.existsSync(jsonPath);
     if (!isJsonExistence) {
-      console.log(chalk.red(`ERROR: in "${replaceExt(relativePath, '.json')}": 当前文件缺失`));
+      console.log(chalk.red(`ERROR in "${replaceExt(relativePath, '.json')}": 当前文件缺失`));
       process.exit();
     }
     try {
@@ -94,7 +94,7 @@ class EntryExtractPlugin {
         });
       }
     } catch (e) {
-      console.log(chalk.red(`ERROR: in "${replaceExt(relativePath, '.json')}": 当前文件内容为空或书写不正确`));
+      console.log(chalk.red(`ERROR in "${replaceExt(relativePath, '.json')}": 当前文件内容为空或书写不正确`));
       process.exit();
     }
   }
@@ -141,6 +141,8 @@ class EntryExtractPlugin {
         this.entries = this.entries.concat(diffEntries);
       }
     });
+
+    compiler.hooks.done.tap('EntryExtractPlugin', () => console.log(chalk.green('Compiled successfully!')));
   }
 }
 

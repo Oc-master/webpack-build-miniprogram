@@ -1,3 +1,14 @@
+## 1.0.2 (2020-05-19)
+
+
+### Features
+
+* **entry_extract_plugin.js:** 添加编译结束提醒 ([9c45f3b](https://github.com/Oc-master/webpack-build-miniprogram/commit/9c45f3b40140e175c9e1fe892a02c320091420d0))
+* **package.json:** 添加@babel/plugin-transform-modules-commonjs依赖包 ([25a62b3](https://github.com/Oc-master/webpack-build-miniprogram/commit/25a62b37670dd7164c2812d04f133a241a5e8d09))
+* **webpack.config.json:** 增加ES6模块转换为commonjs模块功能 ([5677b95](https://github.com/Oc-master/webpack-build-miniprogram/commit/5677b951109714693a656b2ea569d4b42d98db5b))
+
+
+
 ## 1.0.1 (2020-05-14)
 
 

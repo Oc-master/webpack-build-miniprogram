@@ -68,7 +68,7 @@ module.exports = {
             options: {
               plugins: [
                 pxtorpx({
-                  multiplier: 1,
+                  multiplier: 2,
                   propList: ['*'],
                 }),
               ],

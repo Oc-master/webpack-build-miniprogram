@@ -9,7 +9,6 @@ const EntryExtractPlugin = require('./entry_extract_plugin');
 
 const PLATFORM_DICT = {
   wx: 'wxss',
-  my: 'acss',
   swan: 'css',
 };
 const PROJECT_PATH = process.cwd();
@@ -87,7 +86,7 @@ module.exports = {
     new webpack.BannerPlugin({
       raw: true,
       include: 'app.js',
-      banner: 'import commons from "./commons";\nimport manifest from "./manifest";'
+      banner: 'const commons = require("./commons");\nconst manifest require("./manifest");',
     }),
     new MiniCssExtractPlugin({ filename: `[name].${PLATFORM_DICT[platform]}` }),
     new CopyPlugin([
@@ -134,7 +133,7 @@ module.exports = {
       },
     ]),
     new StylelintPlugin({
-      files: '**/*.(le|wx|ac|c)ss',
+      files: '**/*.(le|wx|c)ss',
       fix: true,
     }),
     new webpack.DefinePlugin({ $env: JSON.stringify(OPERATING_ENV) }),

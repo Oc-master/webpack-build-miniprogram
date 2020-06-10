@@ -86,7 +86,7 @@ module.exports = {
     new webpack.BannerPlugin({
       raw: true,
       include: 'app.js',
-      banner: 'const commons = require("./commons");\nconst manifest require("./manifest");',
+      banner: 'const commons = require("./commons");\nconst manifest = require("./manifest");',
     }),
     new MiniCssExtractPlugin({ filename: `[name].${PLATFORM_DICT[platform]}` }),
     new CopyPlugin([

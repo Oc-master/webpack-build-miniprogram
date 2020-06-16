@@ -14,13 +14,14 @@ class EntryExtractPlugin {
   }
 
   /**
-   *	收集app.json文件中注册的pages和subpackages生成一个待处理数组
+   * 将app.json中的pages字段与subpackages中的pages字段组合为数组返回
+   * @return {Array} pages 页面路径数组
    */
   getPages() {
     const app = path.resolve(this.appContext, 'app.json');
     // FIXME: 未做 app.json 文件读取失败处理
     const content = fs.readFileSync(app, 'utf8');
-    const { pages = [], subpackages = [] } = JSON.parse(content);
+    const { pages = [], subpackages = [], usingComponents = {} } = JSON.parse(content);
     const { length: pagesLength } = pages;
     if (!pagesLength) {
       console.log(chalk.red('ERROR in "app.json": pages字段缺失'));
@@ -43,6 +44,10 @@ class EntryExtractPlugin {
         subPages.forEach((subPage) => pages.push(`${root}/${subPage}`));
       });
     }
+    /** 收集全局组件 */
+    const componentList = Object.values(usingComponents);
+    const { length: componentLength } = componentList;
+    componentLength && componentList.forEach((component) => pages.push(component));
     return pages;
   }
 
@@ -95,12 +100,15 @@ class EntryExtractPlugin {
       }
     } catch (e) {
       console.log(chalk.red(`ERROR in "${replaceExt(relativePath, '.json')}": 当前文件内容为空或书写不正确`));
-      process.exit();
+      // process.exit();
     }
   }
 
   /**
-   * 将入口加入到webpack中
+   * 应用webpack入口
+   * @param {String} context 源代码上下文路径
+   * @param {String} entryName 入口名称
+   * @param {String} module 入口相对于源代码上下文的相对路径
    */
   applyEntry(context, entryName, module) {
     if (Array.isArray(module)) {

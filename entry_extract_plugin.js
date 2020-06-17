@@ -1,156 +1,185 @@
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
-const replaceExt = require('replace-ext');
 const { difference } = require('lodash');
+const replaceExt = require('replace-ext');
 const SingleEntryPlugin = require('webpack/lib/SingleEntryPlugin');
 const MultiEntryPlugin = require('webpack/lib/MultiEntryPlugin');
 
 class EntryExtractPlugin {
-  constructor() {
-    this.appContext = null;
-    this.pages = [];
+  constructor({ context, templateExt = '.wxml' }) {
+    this.appContext = context;
+    this.templateExt = templateExt;
+    this.initialEntries = [];
     this.entries = [];
   }
 
-  /**
-   * 将app.json中的pages字段与subpackages中的pages字段组合为数组返回
-   * @return {Array} pages 页面路径数组
-   */
-  getPages() {
-    const app = path.resolve(this.appContext, 'app.json');
-    // FIXME: 未做 app.json 文件读取失败处理
-    const content = fs.readFileSync(app, 'utf8');
-    const { pages = [], subpackages = [], usingComponents = {} } = JSON.parse(content);
-    const { length: pagesLength } = pages;
-    if (!pagesLength) {
-      console.log(chalk.red('ERROR in "app.json": pages字段缺失'));
-      process.exit();
-    }
-    /** 收集分包中的页面 */
-    const { length: subPackagesLength } = subpackages;
-    if (subPackagesLength) {
-      subpackages.forEach((subPackage) => {
-        const { root, pages: subPages = [] } = subPackage;
-        if (!root) {
-          console.log(chalk.red('ERROR in "app.json": 分包配置中root字段缺失'));
-          process.exit();
-        }
-        const { length: subPagesLength } = subPages;
-        if (!subPagesLength) {
-          console.log(chalk.red(`ERROR in "app.json": 当前分包 "${root}" 中pages字段为空`));
-          process.exit();
-        }
-        subPages.forEach((subPage) => pages.push(`${root}/${subPage}`));
-      });
-    }
-    /** 收集全局组件 */
-    const componentList = Object.values(usingComponents);
-    const { length: componentLength } = componentList;
-    componentLength && componentList.forEach((component) => pages.push(component));
-    return pages;
+  apply(compiler) {
+    /** 第一次启动构建，生成初始构建入口 */
+    compiler.hooks.entryOption.tap('EntryExtractPlugin', () => {
+      this.applyFirstEntries();
+      this.entries.forEach((entry) => this.applyEntry(entry, `./${entry}.js`).apply(compiler));
+    });
+
+    compiler.hooks.watchRun.tap('EntryExtractPlugin', (params) => {
+      const { mtimes } = params.watchFileSystem.watcher;
+      const [module] = Object.keys(mtimes);
+      if (!module) return undefined;
+      const entries = this.rebuildEntries(module);
+      entries.forEach((entry) => this.applyEntry(entry, `./${entry}.js`).apply(compiler));
+    });
+
+    compiler.hooks.done.tap('EntryExtractPlugin', () => console.log(chalk.green('INFO: Compiled successfully!')));
   }
 
   /**
-   *	以页面为起始点递归寻找所使用的组件
-   *	@param context {String} 当前文件的上下文路径
-   *	@param dependPath {String} 依赖路径
-   *  @param entries {Array} 包含全部入口的数组
-   */
-  addDependencies(context, dependPath, entries) {
-    /** 生成绝对路径 */
-    const isAbsolute = dependPath[0] === '/';
-    let absolutePath = '';
-    if (isAbsolute) {
-      absolutePath = path.resolve(this.appContext, dependPath.slice(1));
-    } else {
-      absolutePath = path.resolve(context, dependPath);
-    }
-    /** 生成以源代码目录为基准的相对路径 */
-    const relativePath = path.relative(this.appContext, absolutePath);
-    /** 校验该路径是否合法以及是否在已有入口当中 */
-    const jsPath = replaceExt(absolutePath, '.js');
-    const isQualification = fs.existsSync(jsPath);
-    if (!isQualification) {
-      console.log(chalk.red(`ERROR in "${replaceExt(relativePath, '.js')}": 当前文件缺失`));
-      process.exit();
-    }
-    const isExistence = entries.includes((entry) => entry === absolutePath);
-    if (!isExistence) {
-      entries.push(relativePath);
-    }
-    /** 获取json文件内容 */
-    const jsonPath = replaceExt(absolutePath, '.json');
-    const isJsonExistence = fs.existsSync(jsonPath);
-    if (!isJsonExistence) {
-      console.log(chalk.red(`ERROR in "${replaceExt(relativePath, '.json')}": 当前文件缺失`));
-      process.exit();
-    }
-    try {
-      const content = fs.readFileSync(jsonPath, 'utf8');
-      const { usingComponents = {} } = JSON.parse(content);
-      const components = Object.values(usingComponents);
-      const { length } = components;
-      /** 当json文件中有再引用其他组件时执行递归 */
-      if (length) {
-        const absoluteDir = path.dirname(absolutePath);
-        components.forEach((component) => {
-          this.addDependencies(absoluteDir, component, entries);
-        });
-      }
-    } catch (e) {
-      console.log(chalk.red(`ERROR in "${replaceExt(relativePath, '.json')}": 当前文件内容为空或书写不正确`));
-      // process.exit();
-    }
-  }
-
-  /**
-   * 应用webpack入口
-   * @param {String} context 源代码上下文路径
+   * 添加构建入口
    * @param {String} entryName 入口名称
    * @param {String} module 入口相对于源代码上下文的相对路径
    */
-  applyEntry(context, entryName, module) {
+  applyEntry(entryName, module) {
     if (Array.isArray(module)) {
-      return new MultiEntryPlugin(context, module, entryName);
+      return new MultiEntryPlugin(this.appContext, module, entryName);
     }
-    return new SingleEntryPlugin(context, module, entryName);
+    return new SingleEntryPlugin(this.appContext, module, entryName);
   }
 
-  apply(compiler) {
-    /** 设置源代码的上下文 */
-    const { context } = compiler.options;
-    this.appContext = context;
+  /**
+   * 生成当前模块相对于源代码上下文的相对路径
+   * @param {String} context 模块路径的上下文
+   * @param {String} modulePath 模块路径
+   */
+  transformRelative(context, modulePath) {
+    const isAbsolute = modulePath[0] === '/';
+    const absolutePath = isAbsolute ? path.resolve(this.appContext, modulePath.slice(1)) : path.resolve(context, modulePath);
+    const relativePath = path.relative(this.appContext, absolutePath);
+    return relativePath;
+  }
 
-    compiler.hooks.entryOption.tap('EntryExtractPlugin', () => {
-      /** 生成入口依赖数组 */
-      this.pages = this.getPages();
-      this.pages.forEach((page) => void this.addDependencies(context, page, this.entries));
-      this.entries.forEach((entry) => {
-        this.applyEntry(context, entry, `./${entry}`).apply(compiler);
-      });
-    });
+  /**
+   * 检验当前模块是否符合成为入口
+   * @param {String} modulePath 模块路径
+   * @return {Boolean} isQualification 是否符合成为入口
+   * @return {Boolean} isContinue 是否能够继续寻找依赖
+   */
+  checkModule(modulePath) {
+    const absolutePath = path.resolve(this.appContext, modulePath);
+    const jsPath = replaceExt(absolutePath, '.js');
+    const isQualification = fs.existsSync(jsPath);
+    !isQualification && console.log(chalk.yellow(`WARNING: "${replaceExt(modulePath, '.js')}" 逻辑文件缺失`));
+    const jsonPath = replaceExt(absolutePath, '.json');
+    const isContinue = fs.existsSync(jsonPath);
+    !isContinue && console.log(chalk.yellow(`WARNING: "${replaceExt(modulePath, '.json')}" 配置文件缺失`));
+    const templatePath = replaceExt(absolutePath, this.templateExt);
+    const isExistence = fs.existsSync(templatePath);
+    !isExistence && console.log(chalk.yellow(`WARNING: "${replaceExt(modulePath, this.templateExt)}" 模版文件缺失`));
+    return { isQualification, isContinue };
+  }
 
-    compiler.hooks.watchRun.tap('EntryExtractPlugin', () => {
-      /** 校验页面入口是否增加 */
-      const pages = this.getPages();
-      const diffPages = difference(pages, this.pages);
-      const { length } = diffPages;
-      if (length) {
-        this.pages = this.pages.concat(diffPages);
-        const entries = [];
-        /** 通过新增的入口页面建立依赖 */
-        diffPages.forEach((page) => void this.addDependencies(context, page, entries));
-        /** 去除与原有依赖的交集 */
-        const diffEntries = difference(entries, this.entries);
-        diffEntries.forEach((entry) => {
-          this.applyEntry(context, entry, `./${entry}`).apply(compiler);
-        });
-        this.entries = this.entries.concat(diffEntries);
+  /**
+   * 收集单一模块所依赖的其他模块，用来生成入口数组
+   * @param {String} context 模块路径的上下文
+   * @param {String} modulePath 模块路径
+   * @param {Array}} entries 入口数组
+   */
+  addEntries(context, modulePath, entries) {
+    const relativePath = this.transformRelative(context, modulePath);
+    const { isQualification, isContinue } = this.checkModule(relativePath);
+    isQualification && entries.push(relativePath);
+    if (isContinue) {
+      const jsonFile = replaceExt(relativePath, '.json');
+      const jsonPath = path.resolve(this.appContext, jsonFile);
+      try {
+        const content = fs.readFileSync(jsonPath, 'utf8');
+        const { usingComponents = {} } = JSON.parse(content);
+        const components = Object.values(usingComponents);
+        const { length } = components;
+        if (length) {
+          const moduleContext = path.dirname(jsonPath);
+          components.forEach((component) => this.addEntries(moduleContext, component, entries));
+        }
+      } catch (e) {
+        console.log(chalk.red(`ERROR: "${jsonFile}" 文件内容读取失败`));
       }
-    });
+    }
+  }
 
-    compiler.hooks.done.tap('EntryExtractPlugin', () => console.log(chalk.green('Compiled successfully!')));
+  /**
+   * 获取初始的入口数组（未处理）
+   * @return {Array} entries 从 app.json 中收集的初始入口数组
+   */
+  getInitialEntries() {
+    try {
+      const appPath = path.resolve(this.appContext, 'app.json');
+      const content = fs.readFileSync(appPath, 'utf8');
+      const { pages = [], usingComponents = {}, subpackages = [] } = JSON.parse(content);
+      const { length: pagesLength } = pages;
+      if (!pagesLength) {
+        console.log(chalk.red('ERROR: "app.json" pages字段缺失'));
+        process.exit();
+      }
+      const components = Object.values(usingComponents);
+      const { length: componentsLength } = components;
+      if (componentsLength) pages.push(...components);
+      const { length: subpackagesLength } = subpackages;
+      if (!subpackagesLength) return pages;
+      subpackages.forEach((subPackage) => {
+        const { root, pages: subPages = [] } = subPackage;
+        if (!root) {
+          console.log(chalk.red('ERROR: "app.json" 分包配置中root字段缺失'));
+          return undefined;
+        }
+        const { length: subPagesLength } = subPages;
+        if (!subPagesLength) {
+          console.log(chalk.red(`ERROR: "app.json" 当前分包 "${root}" 中pages字段为空`));
+          return undefined;
+        }
+        subPages.forEach((subPage) => pages.push(`${root}/${subPage}`));
+      });
+      return pages;
+    } catch (e) {
+      console.log(chalk.red('ERROR: "app.json" 文件内容读取失败'));
+      process.exit();
+    }
+  }
+
+  applyFirstEntries() {
+    this.initialEntries = this.getInitialEntries();
+    this.entries = this.initialEntries.reduce((acc, entry) => {
+      const entries = [];
+      this.addEntries(this.appContext, entry, entries);
+      return [...new Set([...acc, ...entries])];
+    }, []);
+  }
+
+  rebuildEntries(module) {
+    const isJsonFile = module.indexOf('.json') !== -1;
+    if (!isJsonFile) return undefined;
+    const isAppJsonFile = module.indexOf('app.json') !== -1;
+    if (isAppJsonFile) {
+      const initialEntries = this.getInitialEntries();
+      const diffInitialEntries = difference(initialEntries, this.initialEntries);
+      const { length: diffInitialEntriesLength } = diffInitialEntries;
+      if (!diffInitialEntriesLength) return undefined;
+      this.initialEntries.push(...diffInitialEntries);
+      const entries = diffInitialEntries.reduce((acc, entry) => {
+        const itemEntries = [];
+        this.addEntries(this.appContext, entry, itemEntries);
+        return [...new Set([...acc, ...itemEntries])];
+      }, []);
+      const diffEntries = difference(entries, this.entries);
+      this.entries.push(...diffEntries);
+      return diffEntries;
+    } else {
+      const relativeModule = path.relative(this.appContext, replaceExt(module, ''));
+      const isExistence = this.entries.includes(relativeModule);
+      if (!isExistence) return undefined;
+      const moduleEntries = [];
+      this.addEntries(this.appContext, relativeModule, moduleEntries);
+      const diffModuleEntries = difference(moduleEntries, this.entries);
+      console.log(diffModuleEntries);
+      return diffModuleEntries;
+    }
   }
 }
 

@@ -170,7 +170,16 @@ class EntryExtractPlugin {
       const diffEntries = difference(entries, this.entries);
       this.entries.push(...diffEntries);
       return diffEntries;
-    } else { }
+    } else {
+      const relativeModule = path.relative(this.appContext, replaceExt(module, ''));
+      const isExistence = this.entries.includes(relativeModule);
+      if (!isExistence) return undefined;
+      const moduleEntries = [];
+      this.addEntries(this.appContext, relativeModule, moduleEntries);
+      const diffModuleEntries = difference(moduleEntries, this.entries);
+      console.log(diffModuleEntries);
+      return diffModuleEntries;
+    }
   }
 }
 

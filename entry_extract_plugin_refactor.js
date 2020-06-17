@@ -16,7 +16,7 @@ class EntryExtractPlugin {
 
   apply(compiler) {
     /** 第一次启动构建，生成初始构建入口 */
-    compiler.hooks.entryOptions.tap('EntryExtractPlugin', () => {
+    compiler.hooks.entryOption.tap('EntryExtractPlugin', () => {
       this.applyFirstEntries();
       this.entries.forEach((entry) => this.applyEntry(entry, `./${entry}.js`).apply(compiler));
     });
@@ -102,7 +102,7 @@ class EntryExtractPlugin {
     try {
       const appPath = path.resolve(this.appContext, 'app.json');
       const content = fs.readFileSync(appPath, 'utf8');
-      const { pages, usingComponents, subpackages } = JSON.parse(content);
+      const { pages = [], usingComponents = {}, subpackages = [] } = JSON.parse(content);
       const { length: pagesLength } = pages;
       if (!pagesLength) {
         console.log(chalk.red('ERROR: "app.json" pages字段缺失'));
@@ -143,3 +143,5 @@ class EntryExtractPlugin {
     }, []);
   }
 }
+
+module.exports = EntryExtractPlugin;

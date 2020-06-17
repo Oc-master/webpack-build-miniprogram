@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 
-const EntryExtractPlugin = require('./entry_extract_plugin_refactor');
+const EntryExtractPlugin = require('./entry_extract_plugin');
 
 const PLATFORM_DICT = {
   wx: 'wxss',

@@ -20,6 +20,15 @@ class EntryExtractPlugin {
       this.applyFirstEntries();
       this.entries.forEach((entry) => this.applyEntry(entry, `./${entry}.js`).apply(compiler));
     });
+
+    compiler.hooks.watchRun.tap('EntryExtractPlugin', (params) => {
+      const { mtimes } = params.watchFileSystem.watcher;
+      const [module] = Object.keys(mtimes);
+      const entries = this.rebuildEntries(module);
+      entries.forEach((entry) => this.applyEntry(entry, `./${entry}.js`).apply(compiler));
+    });
+
+    compiler.hooks.done.tap('EntryExtractPlugin', () => console.log(chalk.green('Compiled successfully!')));
   }
 
   /**
@@ -138,9 +147,28 @@ class EntryExtractPlugin {
     this.entries = this.initialEntries.reduce((acc, entry) => {
       const entries = [];
       this.addEntries(this.appContext, entry, entries);
-      console.log(entries);
       return [...new Set([...acc, ...entries])];
     }, []);
+  }
+
+  rebuildEntries(module) {
+    const isJsonFile = module.indexOf('.json') !== -1;
+    if (!isJsonFile) return undefined;
+    const isAppJsonFile = module.indexOf('app.json') !== -1;
+    if (isAppJsonFile) {
+      const initialEntries = this.getInitialEntries();
+      const diffInitialEntries = difference(initialEntries, this.initialEntries);
+      const { length: diffInitialEntriesLength } = diffInitialEntries;
+      if (!diffInitialEntriesLength) return undefined;
+      const entries = diffInitialEntries.reduce((acc, entry) => {
+        const itemEntries = [];
+        this.addEntries(this.appContext, entry, itemEntries);
+        return [...new Set([...acc, ...itemEntries])];
+      }, []);
+      const diffEntries = difference(entries, this.entries);
+      console.log(diffEntries);
+      return diffEntries;
+    }
   }
 }
 

@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 
-const EntryExtractPlugin = require('./entry_extract_plugin');
+const EntryExtractPlugin = require('./entry_extract_plugin_refactor');
 
 const PLATFORM_DICT = {
   wx: 'wxss',
@@ -82,7 +82,10 @@ module.exports = {
     ],
   },
   plugins: [
-    new EntryExtractPlugin(),
+    new EntryExtractPlugin({
+      context: path.resolve(PROJECT_PATH, 'src'),
+      templateExt: '.wxml',
+    }),
     new webpack.BannerPlugin({
       raw: true,
       include: 'app.js',

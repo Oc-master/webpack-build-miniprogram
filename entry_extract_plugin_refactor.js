@@ -24,11 +24,12 @@ class EntryExtractPlugin {
     compiler.hooks.watchRun.tap('EntryExtractPlugin', (params) => {
       const { mtimes } = params.watchFileSystem.watcher;
       const [module] = Object.keys(mtimes);
+      if (!module) return undefined;
       const entries = this.rebuildEntries(module);
       entries.forEach((entry) => this.applyEntry(entry, `./${entry}.js`).apply(compiler));
     });
 
-    compiler.hooks.done.tap('EntryExtractPlugin', () => console.log(chalk.green('Compiled successfully!')));
+    compiler.hooks.done.tap('EntryExtractPlugin', () => console.log(chalk.green('INFO: Compiled successfully!')));
   }
 
   /**
@@ -160,15 +161,16 @@ class EntryExtractPlugin {
       const diffInitialEntries = difference(initialEntries, this.initialEntries);
       const { length: diffInitialEntriesLength } = diffInitialEntries;
       if (!diffInitialEntriesLength) return undefined;
+      this.initialEntries.push(...diffInitialEntries);
       const entries = diffInitialEntries.reduce((acc, entry) => {
         const itemEntries = [];
         this.addEntries(this.appContext, entry, itemEntries);
         return [...new Set([...acc, ...itemEntries])];
       }, []);
       const diffEntries = difference(entries, this.entries);
-      console.log(diffEntries);
+      this.entries.push(...diffEntries);
       return diffEntries;
-    }
+    } else { }
   }
 }
 

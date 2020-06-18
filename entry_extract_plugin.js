@@ -26,7 +26,7 @@ class EntryExtractPlugin {
       const [module] = Object.keys(mtimes);
       if (!module) return undefined;
       const entries = this.rebuildEntries(module);
-      entries.forEach((entry) => this.applyEntry(entry, `./${entry}.js`).apply(compiler));
+      entries && entries.forEach((entry) => this.applyEntry(entry, `./${entry}.js`).apply(compiler));
     });
 
     compiler.hooks.done.tap('EntryExtractPlugin', () => console.log(chalk.green('INFO: Compiled successfully!')));

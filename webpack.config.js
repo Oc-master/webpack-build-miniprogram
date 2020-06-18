@@ -12,7 +12,7 @@ const PLATFORM_DICT = {
   swan: 'css',
 };
 const PROJECT_PATH = process.cwd();
-const { OPERATING_ENV } = process.env;
+const { OPERATING_ENV, CSS_UNIT_RATIO = 1 } = process.env;
 const [platformStr = 'platform.wx'] = process.argv.slice(2);
 const [_, platform] = platformStr.split('.');
 
@@ -68,7 +68,7 @@ module.exports = {
             options: {
               plugins: [
                 pxtorpx({
-                  multiplier: 2,
+                  multiplier: CSS_UNIT_RATIO,
                   propList: ['*'],
                 }),
               ],

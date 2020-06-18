@@ -82,7 +82,10 @@ module.exports = {
     ],
   },
   plugins: [
-    new EntryExtractPlugin(),
+    new EntryExtractPlugin({
+      context: path.resolve(PROJECT_PATH, 'src'),
+      templateExt: '.wxml',
+    }),
     new webpack.BannerPlugin({
       raw: true,
       include: 'app.js',

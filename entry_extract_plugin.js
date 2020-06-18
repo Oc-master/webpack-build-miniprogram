@@ -64,6 +64,8 @@ class EntryExtractPlugin {
    */
   checkModule(modulePath) {
     const absolutePath = path.resolve(this.appContext, modulePath);
+    const isNpmModule = absolutePath.indexOf('miniprogram_npm') !== -1;
+    if (isNpmModule) return { isQualification: false, isContinue: false };
     const jsPath = replaceExt(absolutePath, '.js');
     const isQualification = fs.existsSync(jsPath);
     !isQualification && console.log(chalk.yellow(`WARNING: "${replaceExt(modulePath, '.js')}" 逻辑文件缺失`));
@@ -143,6 +145,9 @@ class EntryExtractPlugin {
     }
   }
 
+  /**
+   * 生成初次启动构建所需要的入口数组
+   */
   applyFirstEntries() {
     this.initialEntries = this.getInitialEntries();
     this.entries = this.initialEntries.reduce((acc, entry) => {
@@ -152,6 +157,10 @@ class EntryExtractPlugin {
     }, []);
   }
 
+  /**
+   * 运行过程中添加构建入口
+   * @param {String} module 触发重新构建的模块路径
+   */
   rebuildEntries(module) {
     const isJsonFile = module.indexOf('.json') !== -1;
     if (!isJsonFile) return undefined;

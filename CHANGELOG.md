@@ -1,3 +1,31 @@
+## 1.0.5 (2020-06-17)
+
+
+### Features
+
+* **webpack.config.js:** 更新引入入口生成插件语句 ([1e8d7c0](https://github.com/Oc-master/webpack-build-miniprogram/commit/1e8d7c0ca2a8b62da2139edbdba5e4dc7f3f983a))
+* **webpack.config.js:** 重构入口构建插件逻辑,解决运行中添加组件需重新启动问题 ([2a28551](https://github.com/Oc-master/webpack-build-miniprogram/commit/2a28551371bb8e17b94cd71080db80f70a734451))
+
+
+
+## 1.0.4 (2020-06-10)
+
+
+### Bug Fixes
+
+* **webpack.config.js:** 修复Banner插件插入语句错误导致app.js无法解析问题 ([a3ea43c](https://github.com/Oc-master/webpack-build-miniprogram/commit/a3ea43c8816e2a32f60c7b8f4746ae744b206f79))
+
+
+
+## 1.0.3 (2020-06-09)
+
+
+### Features
+
+* **webpack.config.json:** 修改单位px转换为rpx比例 ([e9750ec](https://github.com/Oc-master/webpack-build-miniprogram/commit/e9750ecfe2dd2293cf6ab82d3e1a8480e9ecae5e))
+
+
+
 ## 1.0.2 (2020-05-19)
 
 

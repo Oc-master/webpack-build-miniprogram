@@ -1,3 +1,21 @@
+## [1.0.6](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.0.5...v1.0.6) (2020-06-19)
+
+
+### Bug Fixes
+
+* **entry_extract_plugin.js:** 修复非json文件引起重新构建入口时forEach报错问题 ([4f66a0d](https://github.com/Oc-master/webpack-build-miniprogram/commit/4f66a0d7208ae7866ec8a020cb7bab1ea099696b))
+
+
+### Features
+
+* **entry_extract_plugin.js:** 修改编译完成时输出内容 ([2fbf3fe](https://github.com/Oc-master/webpack-build-miniprogram/commit/2fbf3fefe2bda414acc856b7fb252c6a6ca8c972))
+* **entry_extract_plugin.js:** 添加weui组件忽略加入入口构建功能 ([5bbe4e4](https://github.com/Oc-master/webpack-build-miniprogram/commit/5bbe4e4d37085d95ceb24c8007fa01ba83f94f34))
+* **entry_extract_plugin.js:** 添加终端显示时间功能 ([40e5180](https://github.com/Oc-master/webpack-build-miniprogram/commit/40e518034c5ff5ea7941931a93f59dc894b414e0))
+* **entry_extract_plugin.js:** 添加自动生成commons.js文件功能 ([6aed0c8](https://github.com/Oc-master/webpack-build-miniprogram/commit/6aed0c8af624d9841acfc0de02f0fb213632f140))
+* **webpack.config.js:** 增加px转换为rpx的比例设定功能 ([848cfef](https://github.com/Oc-master/webpack-build-miniprogram/commit/848cfef902c3aefec16cb1e2a9773d1b2af652b4))
+
+
+
 ## 1.0.5 (2020-06-17)
 
 
@@ -55,7 +73,7 @@
 
 
 
-# 1.0.0 (2020-05-10)
+## 1.0.0 (2020-05-10)
 
 
 ### Bug Fixes

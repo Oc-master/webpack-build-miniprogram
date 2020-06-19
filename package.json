@@ -1,6 +1,6 @@
 {
   "name": "webpack-build-miniprogram",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "基于webpack的小程序构建策略",
   "main": "index.js",
   "bin": {
@@ -41,6 +41,7 @@
     "chalk": "^4.0.0",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.5.3",
+    "dayjs": "^1.8.28",
     "eslint": "^6.8.0",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-loader": "^4.0.2",

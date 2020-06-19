@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const dayjs = require('dayjs');
 const chalk = require('chalk');
 const { difference } = require('lodash');
 const replaceExt = require('replace-ext');
@@ -26,10 +27,20 @@ class EntryExtractPlugin {
       const [module] = Object.keys(mtimes);
       if (!module) return undefined;
       const entries = this.rebuildEntries(module);
-      entries.forEach((entry) => this.applyEntry(entry, `./${entry}.js`).apply(compiler));
+      entries && entries.forEach((entry) => this.applyEntry(entry, `./${entry}.js`).apply(compiler));
     });
 
-    compiler.hooks.done.tap('EntryExtractPlugin', () => console.log(chalk.green('INFO: Compiled successfully!')));
+    compiler.hooks.emit.tapAsync('EntryExtractPlugin', (compilation, callback) => {
+      if (!compilation.assets['commons.js']) {
+        compilation.assets['commons.js'] = { source: () => '', size: () => 0 };
+      }
+      callback();
+    });
+
+    compiler.hooks.done.tap('EntryExtractPlugin', () => {
+      console.log();
+      console.log(chalk.gray(`[${dayjs().format('HH:mm:ss')}]`), chalk.green('INFO: Compiled successfully!'));
+    });
   }
 
   /**
@@ -64,15 +75,17 @@ class EntryExtractPlugin {
    */
   checkModule(modulePath) {
     const absolutePath = path.resolve(this.appContext, modulePath);
+    const isNpmModule = absolutePath.indexOf('miniprogram_npm') !== -1;
+    if (isNpmModule) return { isQualification: false, isContinue: false };
     const jsPath = replaceExt(absolutePath, '.js');
     const isQualification = fs.existsSync(jsPath);
-    !isQualification && console.log(chalk.yellow(`WARNING: "${replaceExt(modulePath, '.js')}" 逻辑文件缺失`));
+    !isQualification && console.log(chalk.gray(`[${dayjs().format('HH:mm:ss')}]`), chalk.yellow(`WARNING: "${replaceExt(modulePath, '.js')}" 逻辑文件缺失`));
     const jsonPath = replaceExt(absolutePath, '.json');
     const isContinue = fs.existsSync(jsonPath);
-    !isContinue && console.log(chalk.yellow(`WARNING: "${replaceExt(modulePath, '.json')}" 配置文件缺失`));
+    !isContinue && console.log(chalk.gray(`[${dayjs().format('HH:mm:ss')}]`), chalk.yellow(`WARNING: "${replaceExt(modulePath, '.json')}" 配置文件缺失`));
     const templatePath = replaceExt(absolutePath, this.templateExt);
     const isExistence = fs.existsSync(templatePath);
-    !isExistence && console.log(chalk.yellow(`WARNING: "${replaceExt(modulePath, this.templateExt)}" 模版文件缺失`));
+    !isExistence && console.log(chalk.gray(`[${dayjs().format('HH:mm:ss')}]`), chalk.yellow(`WARNING: "${replaceExt(modulePath, this.templateExt)}" 模版文件缺失`));
     return { isQualification, isContinue };
   }
 
@@ -99,7 +112,7 @@ class EntryExtractPlugin {
           components.forEach((component) => this.addEntries(moduleContext, component, entries));
         }
       } catch (e) {
-        console.log(chalk.red(`ERROR: "${jsonFile}" 文件内容读取失败`));
+        console.log(chalk.gray(`[${dayjs().format('HH:mm:ss')}]`), chalk.red(`ERROR: "${jsonFile}" 文件内容读取失败`));
       }
     }
   }
@@ -115,7 +128,7 @@ class EntryExtractPlugin {
       const { pages = [], usingComponents = {}, subpackages = [] } = JSON.parse(content);
       const { length: pagesLength } = pages;
       if (!pagesLength) {
-        console.log(chalk.red('ERROR: "app.json" pages字段缺失'));
+        console.log(chalk.gray(`[${dayjs().format('HH:mm:ss')}]`), chalk.red('ERROR: "app.json" pages字段缺失'));
         process.exit();
       }
       const components = Object.values(usingComponents);
@@ -126,23 +139,26 @@ class EntryExtractPlugin {
       subpackages.forEach((subPackage) => {
         const { root, pages: subPages = [] } = subPackage;
         if (!root) {
-          console.log(chalk.red('ERROR: "app.json" 分包配置中root字段缺失'));
+          console.log(chalk.gray(`[${dayjs().format('HH:mm:ss')}]`), chalk.red('ERROR: "app.json" 分包配置中root字段缺失'));
           return undefined;
         }
         const { length: subPagesLength } = subPages;
         if (!subPagesLength) {
-          console.log(chalk.red(`ERROR: "app.json" 当前分包 "${root}" 中pages字段为空`));
+          console.log(chalk.gray(`[${dayjs().format('HH:mm:ss')}]`), chalk.red(`ERROR: "app.json" 当前分包 "${root}" 中pages字段为空`));
           return undefined;
         }
         subPages.forEach((subPage) => pages.push(`${root}/${subPage}`));
       });
       return pages;
     } catch (e) {
-      console.log(chalk.red('ERROR: "app.json" 文件内容读取失败'));
+      console.log(chalk.gray(`[${dayjs().format('HH:mm:ss')}]`), chalk.red('ERROR: "app.json" 文件内容读取失败'));
       process.exit();
     }
   }
 
+  /**
+   * 生成初次启动构建所需要的入口数组
+   */
   applyFirstEntries() {
     this.initialEntries = this.getInitialEntries();
     this.entries = this.initialEntries.reduce((acc, entry) => {
@@ -152,6 +168,10 @@ class EntryExtractPlugin {
     }, []);
   }
 
+  /**
+   * 运行过程中添加构建入口
+   * @param {String} module 触发重新构建的模块路径
+   */
   rebuildEntries(module) {
     const isJsonFile = module.indexOf('.json') !== -1;
     if (!isJsonFile) return undefined;
@@ -177,7 +197,6 @@ class EntryExtractPlugin {
       const moduleEntries = [];
       this.addEntries(this.appContext, relativeModule, moduleEntries);
       const diffModuleEntries = difference(moduleEntries, this.entries);
-      console.log(diffModuleEntries);
       return diffModuleEntries;
     }
   }

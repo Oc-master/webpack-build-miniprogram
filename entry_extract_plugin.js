@@ -29,6 +29,13 @@ class EntryExtractPlugin {
       entries && entries.forEach((entry) => this.applyEntry(entry, `./${entry}.js`).apply(compiler));
     });
 
+    compiler.hooks.emit.tapAsync('EntryExtractPlugin', (compilation, callback) => {
+      if (!compilation.assets['commons.js']) {
+        compilation.assets['commons.js'] = { source: () => '', size: () => 0 };
+      }
+      callback();
+    });
+
     compiler.hooks.done.tap('EntryExtractPlugin', () => console.log(chalk.green('INFO: Compiled successfully!')));
   }
 

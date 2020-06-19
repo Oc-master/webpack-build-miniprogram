@@ -6,6 +6,7 @@ const { difference } = require('lodash');
 const replaceExt = require('replace-ext');
 const SingleEntryPlugin = require('webpack/lib/SingleEntryPlugin');
 const MultiEntryPlugin = require('webpack/lib/MultiEntryPlugin');
+const DefinePlugin = require('webpack/lib/DefinePlugin');
 
 class EntryExtractPlugin {
   constructor({ context, templateExt = '.wxml' }) {
@@ -20,6 +21,8 @@ class EntryExtractPlugin {
     compiler.hooks.entryOption.tap('EntryExtractPlugin', () => {
       this.applyFirstEntries();
       this.entries.forEach((entry) => this.applyEntry(entry, `./${entry}.js`).apply(compiler));
+      const routes = this.applyRoutes();
+      new DefinePlugin({ $routes: JSON.stringify(routes) }).apply(compiler);
     });
 
     compiler.hooks.watchRun.tap('EntryExtractPlugin', (params) => {
@@ -198,6 +201,48 @@ class EntryExtractPlugin {
       this.addEntries(this.appContext, relativeModule, moduleEntries);
       const diffModuleEntries = difference(moduleEntries, this.entries);
       return diffModuleEntries;
+    }
+  }
+
+  applyRoutes() {
+    try {
+      const routes = {};
+      const appPath = path.resolve(this.appContext, 'app.json');
+      const content = fs.readFileSync(appPath, 'utf8');
+      const { pages = [], subpackages = [] } = JSON.parse(content);
+      const { length: pagesLength } = pages;
+      if (!pagesLength) {
+        console.log(chalk.gray(`[${dayjs().format('HH:mm:ss')}]`), chalk.red('ERROR: "app.json" pages字段缺失,生成主包页面路由失败'));
+        process.exit();
+      }
+      pages.forEach((page) => {
+        const temp = page.split('/');
+        const { length: tempLength } = temp;
+        routes[`${temp[tempLength - 2]}`] = page;
+      });
+      const { length: subpackagesLength } = subpackages;
+      if (!subpackagesLength) return routes;
+      subpackages.forEach((subPackage) => {
+        const { root, pages: subPages = [] } = subPackage;
+        if (!root) {
+          console.log(chalk.gray(`[${dayjs().format('HH:mm:ss')}]`), chalk.red('ERROR: "app.json" 分包配置中root字段缺失,生成分包页面路由失败'));
+          return undefined;
+        }
+        const { length: subPagesLength } = subPages;
+        if (!subPagesLength) {
+          console.log(chalk.gray(`[${dayjs().format('HH:mm:ss')}]`), chalk.red(`ERROR: "app.json" 当前分包 "${root}" 中pages字段为空,生成 ${root} 分包页面路由失败`));
+          return undefined;
+        }
+        subPages.forEach((subPage) => {
+          const subPageTemp = subPage.split('/');
+          const { length: subPageTempLength } = subPageTemp;
+          routes[`${root}_${subPageTemp[subPageTempLength - 2]}`] = `${root}/${subPage}`;
+        });
+      });
+      return routes;
+    } catch (e) {
+      console.log(chalk.gray(`[${dayjs().format('HH:mm:ss')}]`), chalk.red('ERROR: "app.json" 文件内容读取失败'));
+      process.exit();
     }
   }
 }

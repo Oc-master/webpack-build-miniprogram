@@ -1,3 +1,13 @@
+## [1.0.7](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.0.5...v1.0.7) (2020-06-19)
+
+
+### Features
+
+* **entry_extract_plugin.js:** 添加生成路由映射字典功能 ([4cdca53](https://github.com/Oc-master/webpack-build-miniprogram/commit/4cdca534a3db276630fe00ce3b4ae808a86d1518))
+* **webpack.config.js:** 去除babel转换ES6语法功能 ([358ebf5](https://github.com/Oc-master/webpack-build-miniprogram/commit/358ebf52e9ddae13eae13cadc1ae623a6c6661f6))
+
+
+
 ## [1.0.6](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.0.5...v1.0.6) (2020-06-19)
 
 

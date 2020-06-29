@@ -34,10 +34,11 @@ function applyRoutes() {
         console.log(chalk.gray(`[${dayjs().format('HH:mm:ss')}]`), chalk.red(`ERROR: "app.json" 当前分包 "${root}" 中pages字段为空,生成 ${root} 分包页面路由失败`));
         return undefined;
       }
+      routes[`${root}`] = {};
       subPages.forEach((subPage) => {
         const subPageTemp = subPage.split('/');
         const { length: subPageTempLength } = subPageTemp;
-        routes[`${root}_${subPageTemp[subPageTempLength - 2]}`] = `${root}/${subPage}`;
+        routes[`${root}`][`${subPageTemp[subPageTempLength - 2]}`] = `${root}/${subPage}`;
       });
     });
     return routes;

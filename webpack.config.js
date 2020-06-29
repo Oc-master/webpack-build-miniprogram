@@ -7,14 +7,13 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 
-const EntryExtractPlugin = require('./entry_extract_plugin');
+const EntryExtractPlugin = require('./plugins/entry_extract_plugin');
 
-const { PROJECT_PATH, OPERATING_ENV, PLATFORM_DICT } = require('./dictionary');
+const { applyRoutes } = require('./utils');
+const { PROJECT_PATH, OPERATING_ENV, PLATFORM_DICT } = require('./dicts/dictionary');
 
 const YML = path.resolve(PROJECT_PATH, 'config.yaml');
 const config = yaml.load(fs.readFileSync(YML, { encoding: 'utf-8' }));
-
-const hosts = config[`${OPERATING_ENV}_host`];
 
 module.exports = {
   mode: OPERATING_ENV === 'production' ? 'production' : 'development',
@@ -140,8 +139,11 @@ module.exports = {
       fix: true,
     }),
     new webpack.DefinePlugin({
-      $env: JSON.stringify(OPERATING_ENV),
-      $hosts: JSON.stringify(hosts),
+      mc: JSON.stringify({
+        $env: OPERATING_ENV,
+        $hosts: config[`${OPERATING_ENV}_host`],
+        $routes: applyRoutes(),
+      }),
     }),
   ],
   optimization: {

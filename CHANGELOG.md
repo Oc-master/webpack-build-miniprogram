@@ -1,3 +1,12 @@
+## [1.0.9](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.0.7...v1.0.9) (2020-06-29)
+
+
+### Features
+
+* **utils/index.js:** 更改分包$routes变量的数据结构 ([682d1db](https://github.com/Oc-master/webpack-build-miniprogram/commit/682d1db8f7201cc07925c4e2d514082a50a51c15))
+
+
+
 ## [1.0.8](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.0.7...v1.0.8) (2020-06-29)
 
 

@@ -1,13 +1,18 @@
 #!/usr/bin/env node
+const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const shell = require('shelljs');
 const chalk = require('chalk');
+const yaml = require('js-yaml');
 
 const config = require('./webpack.config');
 
 const PROJECT_PATH = process.cwd();
 const { OPERATING_ENV } = process.env;
+const YML = path.resolve(PROJECT_PATH, 'config.yaml');
+const obj = yaml.load(fs.readFileSync(YML, { encoding: 'utf-8' }));
+console.log(chalk.blue(obj));
 
 OPERATING_ENV === 'production' && shell.rm('-rf', path.resolve(PROJECT_PATH, 'dist'));
 

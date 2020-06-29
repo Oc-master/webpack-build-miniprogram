@@ -1,4 +1,6 @@
+const fs = require('fs');
 const path = require('path');
+const yaml = require('js-yaml');
 const webpack = require('webpack');
 const pxtorpx = require('postcss-pxtorpx');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -7,14 +9,12 @@ const StylelintPlugin = require('stylelint-webpack-plugin');
 
 const EntryExtractPlugin = require('./entry_extract_plugin');
 
-const PLATFORM_DICT = {
-  wx: 'wxss',
-  swan: 'css',
-};
-const PROJECT_PATH = process.cwd();
-const { OPERATING_ENV, CSS_UNIT_RATIO = 1 } = process.env;
-const [platformStr = 'platform.wx'] = process.argv.slice(2);
-const [_, platform] = platformStr.split('.');
+const { PROJECT_PATH, OPERATING_ENV, PLATFORM_DICT } = require('./dictionary');
+
+const YML = path.resolve(PROJECT_PATH, 'config.yaml');
+const config = yaml.load(fs.readFileSync(YML, { encoding: 'utf-8' }));
+
+const hosts = config[`${OPERATING_ENV}_host`];
 
 module.exports = {
   mode: OPERATING_ENV === 'production' ? 'production' : 'development',
@@ -68,7 +68,7 @@ module.exports = {
             options: {
               plugins: [
                 pxtorpx({
-                  multiplier: CSS_UNIT_RATIO,
+                  multiplier: config.css_unit_ratio,
                   propList: ['*'],
                 }),
               ],
@@ -91,7 +91,7 @@ module.exports = {
       include: 'app.js',
       banner: 'const commons = require("./commons");\nconst manifest = require("./manifest");',
     }),
-    new MiniCssExtractPlugin({ filename: `[name].${PLATFORM_DICT[platform]}` }),
+    new MiniCssExtractPlugin({ filename: `[name].${PLATFORM_DICT[config.platform]}` }),
     new CopyPlugin([
       {
         from: 'assets/',
@@ -139,7 +139,10 @@ module.exports = {
       files: '**/*.(le|wx|c)ss',
       fix: true,
     }),
-    new webpack.DefinePlugin({ $env: JSON.stringify(OPERATING_ENV) }),
+    new webpack.DefinePlugin({
+      $env: JSON.stringify(OPERATING_ENV),
+      $hosts: JSON.stringify(hosts),
+    }),
   ],
   optimization: {
     splitChunks: {

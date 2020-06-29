@@ -5,7 +5,7 @@ const shell = require('shelljs');
 const chalk = require('chalk');
 
 const config = require('./webpack.config');
-const { PROJECT_PATH, OPERATING_ENV } = require('./dictionary');
+const { PROJECT_PATH, OPERATING_ENV } = require('./dicts/dictionary');
 
 OPERATING_ENV === 'production' && shell.rm('-rf', path.resolve(PROJECT_PATH, 'dist'));
 

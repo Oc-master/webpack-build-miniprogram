@@ -1,3 +1,24 @@
+## [1.0.8](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.0.7...v1.0.8) (2020-06-29)
+
+
+### Bug Fixes
+
+* **dicts/dictionary.js:** 修复环境变量读取失败问题 ([d2ed915](https://github.com/Oc-master/webpack-build-miniprogram/commit/d2ed915cb251087936d92b484522f9c71d7f816d))
+* **webpack.config.js:** 修复eslint缓存导致配置文件更新无效问题 ([fabae42](https://github.com/Oc-master/webpack-build-miniprogram/commit/fabae4293bfed9e27454e732e5fbc1d00a6c368a))
+
+
+### Features
+
+* **dictionary.js:** 添加字典管理文件 ([5e9416d](https://github.com/Oc-master/webpack-build-miniprogram/commit/5e9416d5f2ec98860bf8064fb1a0606ce1aa465c))
+* **index.js:** 添加yaml转换js对象功能 ([6b0a26f](https://github.com/Oc-master/webpack-build-miniprogram/commit/6b0a26fb83e08e7e7ca5c66ca9056f327883d600))
+* **index.js webpack.config.js:** 添加读取配置文件功能,添加全局变量$hosts ([1f70e84](https://github.com/Oc-master/webpack-build-miniprogram/commit/1f70e84cd497e5f0c8f7881e7e23f1dc677c013c))
+* **package.json:** 添加js-yaml依赖包 ([aeed1e7](https://github.com/Oc-master/webpack-build-miniprogram/commit/aeed1e7a2beae1bc3e12df9cf9ad9ca36b50ed61))
+* 重新划分字典和插件的目录结构 ([41e4b9f](https://github.com/Oc-master/webpack-build-miniprogram/commit/41e4b9f87831be4af527be796ed5bf3e4b8243b9))
+* **utils/index.js:** 增加全局变量$routes生成函数 ([fdccd86](https://github.com/Oc-master/webpack-build-miniprogram/commit/fdccd8692bf9c09612ae1cc947f9c012cb1c04b9))
+* **webpack.config.js:** 添加mc全局变量 ([01a779d](https://github.com/Oc-master/webpack-build-miniprogram/commit/01a779d98c79254eb3787fac8720ff75b87bef0b))
+
+
+
 ## [1.0.7](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.0.5...v1.0.7) (2020-06-19)
 
 

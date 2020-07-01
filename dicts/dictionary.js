@@ -3,12 +3,12 @@ module.exports = {
   OPERATING_ENV: process.argv.slice(2)[0],
   PLATFORM_DICT: {
     template: {
+      wx: 'wxml',
+      swan: 'swan',
+    },
+    style: {
       wx: 'wxss',
       swan: 'css',
     },
-    style: {
-      wx: 'wxml',
-      swan: 'swan',
-    }
   },
 };

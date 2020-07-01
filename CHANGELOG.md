@@ -1,3 +1,19 @@
+## [1.0.10](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.0.9...v1.0.10) (2020-07-01)
+
+
+### Bug Fixes
+
+* **dicts/dictionary.js:** 修复字典映射配置出错问题 ([e864228](https://github.com/Oc-master/webpack-build-miniprogram/commit/e8642289ed5c890e017b98abbb7b748ffb548cd7))
+
+
+### Features
+
+* **dicts/dictionary.js:** 更改字典,添加模板文件映射 ([065ab58](https://github.com/Oc-master/webpack-build-miniprogram/commit/065ab58d5ded1696e37bd49a409d2ee91f56e4b2))
+* **index.js:** 每次触发构建时删除旧的dist文件夹 ([480cb2b](https://github.com/Oc-master/webpack-build-miniprogram/commit/480cb2bc8a3cba9d9732112cc306b132a67e30ef))
+* **webpack.config.js:** 完善入口生成插件读取platform配置,修改模板文件检测目标 ([018b78b](https://github.com/Oc-master/webpack-build-miniprogram/commit/018b78b3a9b2072cf5d79d4949ef1bf170e5c224))
+
+
+
 ## [1.0.9](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.0.7...v1.0.9) (2020-06-29)
 
 

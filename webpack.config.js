@@ -83,14 +83,14 @@ module.exports = {
   plugins: [
     new EntryExtractPlugin({
       context: path.resolve(PROJECT_PATH, 'src'),
-      templateExt: '.wxml',
+      templateExt: `.${PLATFORM_DICT.template[config.platform]}`,
     }),
     new webpack.BannerPlugin({
       raw: true,
       include: 'app.js',
       banner: 'const commons = require("./commons");\nconst manifest = require("./manifest");',
     }),
-    new MiniCssExtractPlugin({ filename: `[name].${PLATFORM_DICT[config.platform]}` }),
+    new MiniCssExtractPlugin({ filename: `[name].${PLATFORM_DICT.style[config.platform]}` }),
     new CopyPlugin([
       {
         from: 'assets/',

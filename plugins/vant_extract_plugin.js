@@ -13,6 +13,11 @@ class VantExtractPlugin {
     this.vantContext = path.resolve(PROJECT_PATH, 'node_modules');
     this.initialEntries = [];
     this.entries = [];
+    this.dirs = [
+      path.resolve(this.vantContext, '@vant/weapp/dist/common'),
+      path.resolve(this.vantContext, '@vant/weapp/dist/mixins'),
+      path.resolve(this.vantContext, '@vant/weapp/dist/wxs'),
+    ];
   }
 
   apply(compiler) {
@@ -71,7 +76,18 @@ class VantExtractPlugin {
     if (isContinue) {
       const jsonFile = replaceExt(relativePath, '.json');
       const jsonPath = path.resolve(this.appContext, jsonFile);
-      c
+      try {
+        const content = fs.readFileSync(jsonPath, { encoding: 'utf-8' });
+        const { usingComponents = {} } = JSON.parse(content);
+        const components = Object.values(usingComponents);
+        const { length } = components;
+        if (length) {
+          const moduleContext = path.dirname(jsonPath);
+          components.forEach((component) => this.addEntries(moduleContext, component, entries));
+        }
+      } catch (e) {
+        console.log(chalk.gray(`[${dayjs().format('HH:mm:ss')}]`), chalk.red(`ERROR: "${jsonFile}" 文件内容读取失败`));
+      }
     }
   }
 
@@ -194,9 +210,7 @@ class VantExtractPlugin {
 
   copyVant() {
     const initialVantEntries = this.getInitialVantEntries(this.entries);
-    const dirs = [];
-    initialVantEntries.forEach((item) => this.getVantDirs(_, item, dirs));
-    console.log(dirs);
+    initialVantEntries.forEach((item) => this.getVantDirs(this.vantContext, item, this.dirs));
   }
 }
 

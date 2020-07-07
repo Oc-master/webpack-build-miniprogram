@@ -86,7 +86,9 @@ module.exports = {
       context: path.resolve(PROJECT_PATH, 'src'),
       templateExt: `.${PLATFORM_DICT.template[config.platform]}`,
     }),
-    config.vant && new VantExtractPlugin(),
+    config.vant && new VantExtractPlugin({
+      context: path.resolve(PROJECT_PATH, 'src'),
+    }),
     new webpack.BannerPlugin({
       raw: true,
       include: 'app.js',

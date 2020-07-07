@@ -5,6 +5,9 @@ const dayjs = require('dayjs');
 
 const { PROJECT_PATH } = require('../dicts/dictionary');
 
+/**
+ * 生成路由映射对象
+ */
 function applyRoutes() {
   try {
     const routes = {};

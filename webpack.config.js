@@ -8,6 +8,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 
 const EntryExtractPlugin = require('./plugins/entry_extract_plugin');
+const VantExtractPlugin = require('./plugins/vant_extract_plugin');
 
 const { applyRoutes } = require('./utils');
 const { PROJECT_PATH, OPERATING_ENV, PLATFORM_DICT } = require('./dicts/dictionary');
@@ -85,6 +86,7 @@ module.exports = {
       context: path.resolve(PROJECT_PATH, 'src'),
       templateExt: `.${PLATFORM_DICT.template[config.platform]}`,
     }),
+    config.vant && new VantExtractPlugin(),
     new webpack.BannerPlugin({
       raw: true,
       include: 'app.js',

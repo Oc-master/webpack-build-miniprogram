@@ -77,6 +77,8 @@ class EntryExtractPlugin {
     const absolutePath = path.resolve(this.appContext, modulePath);
     const isNpmModule = absolutePath.indexOf('miniprogram_npm') !== -1;
     if (isNpmModule) return { isQualification: false, isContinue: false };
+    const isVant = absolutePath.indexOf('vant') !== -1;
+    if (isVant) return { isQualification: false, isContinue: false };
     const jsPath = replaceExt(absolutePath, '.js');
     const isQualification = fs.existsSync(jsPath);
     !isQualification && console.log(chalk.gray(`[${dayjs().format('HH:mm:ss')}]`), chalk.yellow(`WARNING: "${replaceExt(modulePath, '.js')}" 逻辑文件缺失`));
@@ -103,7 +105,7 @@ class EntryExtractPlugin {
       const jsonFile = replaceExt(relativePath, '.json');
       const jsonPath = path.resolve(this.appContext, jsonFile);
       try {
-        const content = fs.readFileSync(jsonPath, 'utf8');
+        const content = fs.readFileSync(jsonPath, { encoding: 'utf-8' });
         const { usingComponents = {} } = JSON.parse(content);
         const components = Object.values(usingComponents);
         const { length } = components;
@@ -124,7 +126,7 @@ class EntryExtractPlugin {
   getInitialEntries() {
     try {
       const appPath = path.resolve(this.appContext, 'app.json');
-      const content = fs.readFileSync(appPath, 'utf8');
+      const content = fs.readFileSync(appPath, { encoding: 'utf-8' });
       const { pages = [], usingComponents = {}, subpackages = [] } = JSON.parse(content);
       const { length: pagesLength } = pages;
       if (!pagesLength) {

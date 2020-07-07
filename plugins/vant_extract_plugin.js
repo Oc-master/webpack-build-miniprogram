@@ -5,9 +5,12 @@ const chalk = require('chalk');
 const { difference } = require('lodash');
 const replaceExt = require('replace-ext');
 
+const { PROJECT_PATH } = require('../dicts/dictionary');
+
 class VantExtractPlugin {
   constructor({ context }) {
     this.appContext = context;
+    this.vantContext = path.resolve(PROJECT_PATH, 'node_modules');
     this.initialEntries = [];
     this.entries = [];
   }
@@ -16,7 +19,7 @@ class VantExtractPlugin {
     /** 第一次启动构建，生成初始构建入口 */
     compiler.hooks.entryOption.tap('EntryExtractPlugin', () => {
       this.applyFirstEntries();
-      this.getInitialVantEntries(this.entries);
+      this.copyVant();
     });
 
     compiler.hooks.watchRun.tap('VantExtractPlugin', (params) => {
@@ -50,13 +53,8 @@ class VantExtractPlugin {
     if (isVant) return { isQualification: false, isContinue: false };
     const jsPath = replaceExt(absolutePath, '.js');
     const isQualification = fs.existsSync(jsPath);
-    !isQualification && console.log(chalk.gray(`[${dayjs().format('HH:mm:ss')}]`), chalk.yellow(`WARNING: "${replaceExt(modulePath, '.js')}" 逻辑文件缺失`));
     const jsonPath = replaceExt(absolutePath, '.json');
     const isContinue = fs.existsSync(jsonPath);
-    !isContinue && console.log(chalk.gray(`[${dayjs().format('HH:mm:ss')}]`), chalk.yellow(`WARNING: "${replaceExt(modulePath, '.json')}" 配置文件缺失`));
-    const templatePath = replaceExt(absolutePath, this.templateExt);
-    const isExistence = fs.existsSync(templatePath);
-    !isExistence && console.log(chalk.gray(`[${dayjs().format('HH:mm:ss')}]`), chalk.yellow(`WARNING: "${replaceExt(modulePath, this.templateExt)}" 模版文件缺失`));
     return { isQualification, isContinue };
   }
 
@@ -73,18 +71,7 @@ class VantExtractPlugin {
     if (isContinue) {
       const jsonFile = replaceExt(relativePath, '.json');
       const jsonPath = path.resolve(this.appContext, jsonFile);
-      try {
-        const content = fs.readFileSync(jsonPath, { encoding: 'utf-8' });
-        const { usingComponents = {} } = JSON.parse(content);
-        const components = Object.values(usingComponents);
-        const { length } = components;
-        if (length) {
-          const moduleContext = path.dirname(jsonPath);
-          components.forEach((component) => this.addEntries(moduleContext, component, entries));
-        }
-      } catch (e) {
-        console.log(chalk.gray(`[${dayjs().format('HH:mm:ss')}]`), chalk.red(`ERROR: "${jsonFile}" 文件内容读取失败`));
-      }
+      c
     }
   }
 
@@ -179,13 +166,37 @@ class VantExtractPlugin {
       const { usingComponents = {} } = JSON.parse(content);
       const components = Object.values(usingComponents);
       const { length } = components;
-      if (length) {
-        const temp = components.filter((item) => item.indexOf('vant') !== -1);
-        return [...acc, ...temp];
-      }
-      return acc;
+      if (!length) return acc;
+      const temp = components.filter((item) => item.indexOf('vant') !== -1);
+      return [...acc, ...temp];
     }, []);
-    console.log(vantEntries);
+    return vantEntries;
+  }
+
+  getVantDirs(context, modulePath, dirs) {
+    const isAbsolute = modulePath[0] === '/';
+    const absolutePath = isAbsolute ? path.resolve(this.vantContext, modulePath.slice(1)) : path.resolve(context, modulePath);
+    const jsonPath = replaceExt(absolutePath, '.json');
+    const dir = path.dirname(jsonPath);
+    dirs.push(dir);
+    try {
+      const content = fs.readFileSync(jsonPath, { encoding: 'utf-8' });
+      const { usingComponents = {} } = JSON.parse(content);
+      const components = Object.values(usingComponents);
+      const { length } = components;
+      if (length) {
+        components.forEach((component) => this.getVantDirs(dir, component, dirs));
+      }
+    } catch (e) {
+      console.log(chalk.gray(`[${dayjs().format('HH:mm:ss')}]`), chalk.red(`ERROR: "${jsonFile}" 文件内容读取失败`));
+    }
+  }
+
+  copyVant() {
+    const initialVantEntries = this.getInitialVantEntries(this.entries);
+    const dirs = [];
+    initialVantEntries.forEach((item) => this.getVantDirs(_, item, dirs));
+    console.log(dirs);
   }
 }
 

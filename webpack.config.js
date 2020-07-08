@@ -88,6 +88,7 @@ module.exports = {
     }),
     config.vant && new VantExtractPlugin({
       context: path.resolve(PROJECT_PATH, 'src'),
+      vantContext: path.resolve(PROJECT_PATH, 'node_modules'),
     }),
     new webpack.BannerPlugin({
       raw: true,

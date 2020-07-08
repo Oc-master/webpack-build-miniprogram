@@ -19,6 +19,13 @@ class VantExtractPlugin {
         return [...acc, ...temp];
       }, []);
       console.log(fileSet);
+      const vantEntries = this.getInitialVantEntries(fileSet);
+      const vantFileSet = vantEntries.reduce((acc, item) => {
+        const temp = [];
+        this.createFileSet(this.vantContext, item, temp);
+        return [...acc, ...temp];
+      }, []);
+      console.log(vantFileSet);
     });
   }
 
@@ -68,13 +75,30 @@ class VantExtractPlugin {
       if (componentsLength) {
         const moduleContext = path.dirname(absolutePath);
         components.forEach((component) => {
-          const relativePath = this.convertToRelative(this.context, moduleContext, component);
-          this.createFileSet(this.context, relativePath, fileSet);
+          const relativePath = this.convertToRelative(context, moduleContext, component);
+          this.createFileSet(context, relativePath, fileSet);
         });
       }
     } catch(e) {
       console.log(chalk.gray(`[${dayjs().format('HH:mm:ss')}]`), chalk.red(`ERROR: "${absolutePath}" 文件内容读取失败`));
     }
+  }
+
+  getInitialVantEntries(entries) {
+    const fileSet = entries.reduce((acc, item) => {
+      try {
+        const content = fs.readFileSync(item, { encoding: 'utf-8' });
+        const { usingComponents = {} } = JSON.parse(content);
+        const components = Object.values(usingComponents);
+        const { length: componentsLength } = components;
+        if (!componentsLength) return acc;
+        const temp = components.filter((component) => component.indexOf('vant') !== -1);
+        return [...acc, ...temp];
+      } catch(e) {
+        console.log(chalk.gray(`[${dayjs().format('HH:mm:ss')}]`), chalk.red(`ERROR: 文件内容读取失败`));
+      }
+    });
+    return fileSet;
   }
 }
 

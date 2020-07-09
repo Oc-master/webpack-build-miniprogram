@@ -1,3 +1,12 @@
+## [1.0.11](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.0.10...v1.0.11) (2020-07-09)
+
+
+### Features
+
+* **webpack.config.js:** 添加@babel/plugin-proposal-class-properties依赖包,解析class新语法功能 ([1b29a4f](https://github.com/Oc-master/webpack-build-miniprogram/commit/1b29a4f45286a3776c85e38382c9ab2c3220160d))
+
+
+
 ## [1.0.10](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.0.9...v1.0.10) (2020-07-01)
 
 

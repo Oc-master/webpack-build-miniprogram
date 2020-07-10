@@ -52,7 +52,7 @@ module.exports = {
           // presets: ['@babel/preset-env'],
           plugins: [
             '@babel/plugin-transform-modules-commonjs',
-            "@babel/plugin-proposal-class-properties", { "loose": true },
+            ['@babel/plugin-proposal-class-properties', { 'loose': true }],
             // '@babel/plugin-transform-runtime',
           ],
         },

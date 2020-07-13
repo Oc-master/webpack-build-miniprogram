@@ -18,7 +18,7 @@
     "webpack"
   ],
   "author": "O_c",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Oc-master/webpack-build-miniprogram/issues"
   },
@@ -38,6 +38,7 @@
     "@babel/plugin-transform-runtime": "7.9.0",
     "@babel/preset-env": "7.9.5",
     "@babel/runtime": "7.9.2",
+    "@medusa/entry-extract-webpack-plugin": "https://github.com/Oc-master/entry-extract-webpack-plugin.git#develop",
     "babel-loader": "^8.1.0",
     "chalk": "^4.0.0",
     "copy-webpack-plugin": "^5.1.1",

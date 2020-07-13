@@ -1,3 +1,12 @@
+## [1.0.12](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.0.11...v1.0.12) (2020-07-13)
+
+
+### Bug Fixes
+
+* **webpack.config.js:** 修复@babel/plugin-proposal-class-properties插件运作异常问题 ([8b305f2](https://github.com/Oc-master/webpack-build-miniprogram/commit/8b305f2bd7917e47764853acb56dacb3ff79b9a5))
+
+
+
 ## [1.0.11](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.0.10...v1.0.11) (2020-07-09)
 
 

@@ -6,12 +6,9 @@ const pxtorpx = require('postcss-pxtorpx');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
-
-const EntryExtractPlugin = require('./plugins/entry_extract_plugin');
-const VantExtractPlugin = require('./plugins/vant_extract_plugin');
-
+const EntryExtractPlugin = require('@medusa/entry-extract-webpack-plugin');
 const { applyRoutes } = require('./utils');
-const { PROJECT_PATH, OPERATING_ENV, PLATFORM_DICT } = require('./dicts/dictionary');
+const { PROJECT_PATH, OPERATING_ENV, PLATFORM_DICT } = require('./dictionary');
 
 const YML = path.resolve(PROJECT_PATH, 'config.yaml');
 const config = yaml.load(fs.readFileSync(YML, { encoding: 'utf-8' }));
@@ -50,9 +47,7 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         options: {
-          // presets: ['@babel/preset-env'],
           plugins: [
-            // '@babel/plugin-transform-runtime',
             '@babel/plugin-transform-modules-commonjs',
             "@babel/plugin-proposal-class-properties", { "loose": true },
           ],
@@ -90,10 +85,6 @@ module.exports = {
       context: path.resolve(PROJECT_PATH, 'src'),
       templateExt: `.${PLATFORM_DICT.template[config.platform]}`,
     }),
-    config.vant && new VantExtractPlugin({
-      context: path.resolve(PROJECT_PATH, 'src'),
-      vantContext: path.resolve(PROJECT_PATH, 'node_modules'),
-    }),
     new webpack.BannerPlugin({
       raw: true,
       include: 'app.js',
@@ -112,14 +103,6 @@ module.exports = {
       },
       {
         from: '**/*.wxss',
-        toType: 'dir',
-      },
-      {
-        from: '**/*.axml',
-        toType: 'dir',
-      },
-      {
-        from: '**/*.acss',
         toType: 'dir',
       },
       {

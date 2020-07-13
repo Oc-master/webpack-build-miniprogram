@@ -1,9 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const chalk = require('chalk');
-const dayjs = require('dayjs');
 
-const { PROJECT_PATH } = require('../dicts/dictionary');
+const { PROJECT_PATH } = require('../dictionary');
 
 /**
  * 生成路由映射对象
@@ -16,7 +14,6 @@ function applyRoutes() {
     const { pages = [], subpackages = [] } = JSON.parse(content);
     const { length: pagesLength } = pages;
     if (!pagesLength) {
-      console.log(chalk.gray(`[${dayjs().format('HH:mm:ss')}]`), chalk.red('ERROR: "app.json" pages字段缺失,生成主包页面路由失败'));
       process.exit();
     }
     pages.forEach((page) => {
@@ -29,12 +26,10 @@ function applyRoutes() {
     subpackages.forEach((subPackage) => {
       const { root, pages: subPages = [] } = subPackage;
       if (!root) {
-        console.log(chalk.gray(`[${dayjs().format('HH:mm:ss')}]`), chalk.red('ERROR: "app.json" 分包配置中root字段缺失,生成分包页面路由失败'));
         return undefined;
       }
       const { length: subPagesLength } = subPages;
       if (!subPagesLength) {
-        console.log(chalk.gray(`[${dayjs().format('HH:mm:ss')}]`), chalk.red(`ERROR: "app.json" 当前分包 "${root}" 中pages字段为空,生成 ${root} 分包页面路由失败`));
         return undefined;
       }
       routes[`${root}`] = {};
@@ -46,7 +41,6 @@ function applyRoutes() {
     });
     return routes;
   } catch (e) {
-    console.log(chalk.gray(`[${dayjs().format('HH:mm:ss')}]`), chalk.red('ERROR: "app.json" 文件内容读取失败'));
     process.exit();
   }
 }

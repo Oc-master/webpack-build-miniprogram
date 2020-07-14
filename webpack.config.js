@@ -6,7 +6,7 @@ const pxtorpx = require('postcss-pxtorpx');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
-const EntryExtractPlugin = require('@medusa/entry-extract-webpack-plugin');
+const EntryExtractPlugin = require('entry-extract-webpack-plugin');
 const { applyRoutes } = require('./utils');
 const { PROJECT_PATH, OPERATING_ENV, PLATFORM_DICT } = require('./dictionary');
 
@@ -81,10 +81,7 @@ module.exports = {
     ],
   },
   plugins: [
-    new EntryExtractPlugin({
-      context: path.resolve(PROJECT_PATH, 'src'),
-      templateExt: `.${PLATFORM_DICT.template[config.platform]}`,
-    }),
+    new EntryExtractPlugin({ templateExt: `.${PLATFORM_DICT.template[config.platform]}` }),
     new webpack.BannerPlugin({
       raw: true,
       include: 'app.js',

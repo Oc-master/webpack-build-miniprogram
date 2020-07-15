@@ -62,3 +62,12 @@ platform: wx
 * `$env`：运行环境变量，对应了脚本中配置的 {env} 的值
 * `$routes`：路由映射字典，该字典中的每个`key`取自`pages`文件夹的名称，`value`取自`app.json`中的配置，你可以通过`mc.$routes.index`来替代`pages/index/index`字符串。
 * `$hosts`：域名配置对象，当项目根目录中没有配置`config.yaml`时，该对象是一个没有属性的空对象。存在配置文件时，构建工具会根据环境自动将配置读取到对象中，上述例子配置文件中，你可以使用`mc.$hosts.api`访问到`https://www.miniprogram.dev.com`域名。
+
+## License
+
+[MIT](https://github.com/Oc-master/webpack-build-miniprogram/blob/master/LICENSE)
+
+### keywords
+
+`webpack` `wx` `swan` `miniprogram`
+

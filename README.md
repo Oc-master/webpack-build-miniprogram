@@ -22,7 +22,7 @@ $ npm install webpack-build-miniprogram --save
 ```json
 /* package.json */
 "scripts": {
-	"{script}": "medusa {env}"
+  "{script}": "medusa {env}"
 }
 ```
 
@@ -31,8 +31,8 @@ $ npm install webpack-build-miniprogram --save
 ```json
 /* package.json */
 "scripts": {
-	"dev": "medusa development",
-	"build": "medusa production"
+  "dev": "medusa development",
+  "build": "medusa production"
 }
 ```
 

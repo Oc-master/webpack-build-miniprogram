@@ -1,33 +1,29 @@
-const fs = require('fs');
-const path = require('path');
-const yaml = require('js-yaml');
 const webpack = require('webpack');
 const pxtorpx = require('postcss-pxtorpx');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 const EntryExtractPlugin = require('entry-extract-webpack-plugin');
-const { applyRoutes } = require('./utils');
-const { PROJECT_PATH, OPERATING_ENV, PLATFORM_DICT } = require('./dictionary');
+const { applyRoutes, isProduction, getConfig } = require('./utils');
+const { OPERATING_ENV, PLATFORM_DICT, SOURCE, DESTINATION } = require('./dictionary');
 
-const YML = path.resolve(PROJECT_PATH, 'config.yaml');
-const config = yaml.load(fs.readFileSync(YML, { encoding: 'utf-8' }));
+const config = getConfig();
 
 module.exports = {
-  mode: OPERATING_ENV === 'production' ? 'production' : 'development',
-  devtool: OPERATING_ENV === 'production' ? '' : 'inline-source-map',
-  context: path.resolve(PROJECT_PATH, 'src'),
+  mode: isProduction() ? 'production' : 'development',
+  devtool: isProduction() ? '' : 'inline-source-map',
+  context: SOURCE,
   entry: {
     app: './app.js',
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(PROJECT_PATH, 'dist'),
+    path: DESTINATION,
     globalObject: 'global',
   },
   resolve: {
     alias: {
-      '@': path.resolve(PROJECT_PATH, 'src'),
+      '@': SOURCE,
     },
   },
   module: {
@@ -130,7 +126,7 @@ module.exports = {
     new webpack.DefinePlugin({
       mc: JSON.stringify({
         $env: OPERATING_ENV,
-        $hosts: config[`${OPERATING_ENV}_host`],
+        $hosts: config[`${OPERATING_ENV}_host`] || {},
         $routes: applyRoutes(),
       }),
     }),
@@ -151,7 +147,7 @@ module.exports = {
       name: 'manifest',
     },
   },
-  watch: OPERATING_ENV === 'production' ? false : true,
+  watch: isProduction() ? false : true,
   watchOptions: {
     aggregateTimeout: 800,
     ignored: /node_modules/,

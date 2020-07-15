@@ -66,8 +66,3 @@ platform: wx
 ## License
 
 [MIT](https://github.com/Oc-master/webpack-build-miniprogram/blob/master/LICENSE)
-
-### keywords
-
-`webpack` `wx` `swan` `miniprogram`
-

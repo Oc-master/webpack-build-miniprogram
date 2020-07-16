@@ -74,6 +74,25 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.styl&/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: [
+                pxtorpx({
+                  multiplier: config.css_unit_ratio,
+                  propList: ['*'],
+                }),
+              ],
+            },
+          },
+          'stylus-loader',
+        ],
+      },
     ],
   },
   plugins: [

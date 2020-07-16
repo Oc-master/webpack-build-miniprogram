@@ -3,6 +3,17 @@
 
 ### Features
 
+* **dictionary/index.js:** 添加DEFAULT_CONFIG常量 ([99cf6be](https://github.com/Oc-master/webpack-build-miniprogram/commit/99cf6beb955be2c23c43c30b98857e89a7d9ea1a))
+* **package.json:** 升级entry-extract-webpack-plugin依赖 ([1e2d693](https://github.com/Oc-master/webpack-build-miniprogram/commit/1e2d693c2c9cdadcf68e5206a3c329db720e23f7))
+* **utils/index.js:** 为getConfig函数添加默认返回值,做容错处理 ([3abd6b3](https://github.com/Oc-master/webpack-build-miniprogram/commit/3abd6b3887e7f87c3306af18b9ff95d25999b02d))
+
+
+
+## [1.1.1](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.1.0...v1.1.1) (2020-07-16)
+
+
+### Features
+
 * **dictionary/index.js:** 添加DEFAULT_CONFIG常量 ([32e8c40](https://github.com/Oc-master/webpack-build-miniprogram/commit/32e8c40ed410c2a9cf29c5fff42b1291226b16e1))
 * **utils/index.js:** 为getConfig函数添加默认返回值,做容错处理 ([53bb533](https://github.com/Oc-master/webpack-build-miniprogram/commit/53bb533a79a156be6bd1cbb8413e8107c529f8c3))
 

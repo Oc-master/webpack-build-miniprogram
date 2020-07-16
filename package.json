@@ -59,6 +59,8 @@
     "shelljs": "^0.8.4",
     "stylelint": "^13.3.3",
     "stylelint-webpack-plugin": "^2.0.0",
+    "stylus": "^0.54.7",
+    "stylus-loader": "^3.0.2",
     "webpack": "^4.43.0"
   }
 }

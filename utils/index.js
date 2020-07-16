@@ -2,10 +2,11 @@ const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
 
-const { PROJECT_PATH, OPERATING_ENV } = require('../dictionary');
+const { PROJECT_PATH, OPERATING_ENV, DEFAULT_CONFIG } = require('../dictionary');
 
 /**
  * 生成路由映射对象
+ * @return {Object} routes 路由映射对象
  */
 function applyRoutes() {
   try {
@@ -49,11 +50,16 @@ function isProduction() {
   return OPERATING_ENV === 'production';
 }
 
+/**
+ * 获取 config.yaml 配置文件内容，将 yaml 格式转换为 object 格式
+ * @return {Object} config 配置对象
+ */
 function getConfig() {
   try {
     const configPath = path.resolve(PROJECT_PATH, 'config.yaml');
     const content = fs.readFileSync(configPath, { encoding: 'utf-8' });
-    return yaml.load(content);
+    const yamlContent = yaml.load(content);
+    return { ...DEFAULT_CONFIG, ...yamlContent };
   } catch(e) {
     return { platform: 'wx', css_unit_ratio: 1 };
   }

@@ -20,4 +20,8 @@ module.exports = {
       swan: 'css',
     },
   },
+  DEFAULT_CONFIG: {
+    platform: 'wx',
+    css_unit_ratio: 1,
+  },
 };

@@ -4,6 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 const EntryExtractPlugin = require('entry-extract-webpack-plugin');
+const UiExtractPlugin = require('ui-extract-webpack-plugin');
 const { applyRoutes, isProduction, getConfig } = require('./utils');
 const { OPERATING_ENV, PLATFORM_DICT, SOURCE, DESTINATION } = require('./dictionary');
 
@@ -97,6 +98,7 @@ module.exports = {
   },
   plugins: [
     new EntryExtractPlugin({ templateExt: `.${PLATFORM_DICT.template[config.platform]}` }),
+    new UiExtractPlugin({ context: SOURCE }),
     new webpack.BannerPlugin({
       raw: true,
       include: 'app.js',

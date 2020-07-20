@@ -61,6 +61,7 @@
     "stylelint-webpack-plugin": "^2.0.0",
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2",
-    "webpack": "^4.43.0"
+    "webpack": "^4.43.0",
+    "ui-extract-webpack-plugin": "https://github.com/Oc-master/ui-extract-webpack-plugin.git#develop"
   }
 }

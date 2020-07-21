@@ -75,25 +75,6 @@ module.exports = {
           },
         ],
       },
-      {
-        test: /\.styl&/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          {
-            loader: 'postcss-loader',
-            options: {
-              plugins: [
-                pxtorpx({
-                  multiplier: config.css_unit_ratio,
-                  propList: ['*'],
-                }),
-              ],
-            },
-          },
-          'stylus-loader',
-        ],
-      },
     ],
   },
   plugins: [
@@ -103,6 +84,13 @@ module.exports = {
       raw: true,
       include: 'app.js',
       banner: 'const commons = require("./commons");\nconst manifest = require("./manifest");',
+    }),
+    new webpack.DefinePlugin({
+      mc: JSON.stringify({
+        $env: OPERATING_ENV,
+        $hosts: config[`${OPERATING_ENV}_host`] || {},
+        $routes: applyRoutes(),
+      }),
     }),
     new MiniCssExtractPlugin({ filename: `[name].${PLATFORM_DICT.style[config.platform]}` }),
     new CopyPlugin([
@@ -114,10 +102,30 @@ module.exports = {
       {
         from: '**/*.wxml',
         toType: 'dir',
+        globOptions: {
+          ignore: ['**/vant/**'],
+        },
       },
       {
         from: '**/*.wxss',
         toType: 'dir',
+        globOptions: {
+          ignore: ['**/vant/**'],
+        },
+      },
+      {
+        from: '**/*.json',
+        toType: 'dir',
+        globOptions: {
+          ignore: ['**/vant/**'],
+        },
+      },
+      {
+        from: '**/*.wxs',
+        toType: 'dir',
+        globOptions: {
+          ignore: ['**/vant/**'],
+        },
       },
       {
         from: '**/*.swan',
@@ -128,14 +136,6 @@ module.exports = {
         toType: 'dir',
       },
       {
-        from: '**/*.json',
-        toType: 'dir',
-      },
-      {
-        from: '**/*.wxs',
-        toType: 'dir',
-      },
-      {
         from: '**/*.sjs',
         toType: 'dir',
       },
@@ -143,13 +143,6 @@ module.exports = {
     new StylelintPlugin({
       files: '**/*.(le|wx|c)ss',
       fix: true,
-    }),
-    new webpack.DefinePlugin({
-      mc: JSON.stringify({
-        $env: OPERATING_ENV,
-        $hosts: config[`${OPERATING_ENV}_host`] || {},
-        $routes: applyRoutes(),
-      }),
     }),
   ],
   optimization: {

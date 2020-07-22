@@ -1,3 +1,17 @@
+## [1.1.2](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.1.1...v1.1.2) (2020-07-22)
+
+
+### Features
+
+* **dictionary/index.js:** 添加DEFAULT_CONFIG常量 ([32e8c40](https://github.com/Oc-master/webpack-build-miniprogram/commit/32e8c40ed410c2a9cf29c5fff42b1291226b16e1))
+* **package.json:** 升级entry-extract-webpack-plugin依赖包 ([23c8aab](https://github.com/Oc-master/webpack-build-miniprogram/commit/23c8aabdad75a49e48843904235264bd52b93895))
+* **package.json:** 添加stylus stylus-loader依赖 ([bb75ce9](https://github.com/Oc-master/webpack-build-miniprogram/commit/bb75ce982405f00f7da9e41ee22b791a887d9090))
+* **utils/index.js:** 为getConfig函数添加默认返回值,做容错处理 ([53bb533](https://github.com/Oc-master/webpack-build-miniprogram/commit/53bb533a79a156be6bd1cbb8413e8107c529f8c3))
+* **webpack.config.js:** 添加UI组件生成功能 ([cdbf5d3](https://github.com/Oc-master/webpack-build-miniprogram/commit/cdbf5d3c5921c7fa93aac5f01590f65729701fe0))
+* **webpack.config.js:** 配置copy-webpack-plugin插件忽略匹配vant文件夹下的内容 ([b9d1614](https://github.com/Oc-master/webpack-build-miniprogram/commit/b9d161415a4f8888bb84a4be27455840f6d56b52))
+
+
+
 ## [1.1.1](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.1.0...v1.1.1) (2020-07-16)
 
 

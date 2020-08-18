@@ -12,7 +12,7 @@ const config = getConfig();
 
 module.exports = {
   mode: isProduction() ? 'production' : 'development',
-  devtool: isProduction() ? '' : 'inline-source-map',
+  devtool: 'none',
   context: SOURCE,
   entry: {
     app: './app.js',

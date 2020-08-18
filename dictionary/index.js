@@ -1,13 +1,13 @@
 const path = require('path');
 
-const PROJECT_PATH = process.cwd();
 const [OPERATING_ENV] = process.argv.slice(2);
+const PROJECT_PATH = process.cwd();
 const SOURCE = path.resolve(PROJECT_PATH, 'src');
 const DESTINATION = path.resolve(PROJECT_PATH, 'dist');
 
 module.exports = {
-  PROJECT_PATH,
   OPERATING_ENV,
+  PROJECT_PATH,
   SOURCE,
   DESTINATION,
   PLATFORM_DICT: {

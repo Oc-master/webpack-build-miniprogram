@@ -61,7 +61,7 @@ function getConfig() {
     const yamlContent = yaml.load(content);
     return { ...DEFAULT_CONFIG, ...yamlContent };
   } catch(e) {
-    return { platform: 'wx', css_unit_ratio: 1 };
+    return DEFAULT_CONFIG;
   }
 }
 

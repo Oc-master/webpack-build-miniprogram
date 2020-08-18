@@ -8,6 +8,7 @@ const UiExtractPlugin = require('ui-extract-webpack-plugin');
 const { applyRoutes, isProduction, getConfig } = require('./utils');
 const { OPERATING_ENV, PLATFORM_DICT, SOURCE, DESTINATION } = require('./dictionary');
 
+/** Get the config.yaml file content */
 const config = getConfig();
 
 module.exports = {

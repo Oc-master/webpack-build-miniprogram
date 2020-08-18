@@ -1,3 +1,14 @@
+## [1.1.3](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.1.2...v1.1.3) (2020-08-18)
+
+
+### Features
+
+* **.gitignore:** update .gitignore ([f1e3232](https://github.com/Oc-master/webpack-build-miniprogram/commit/f1e3232ff85b3b546951015d38333c32d30e170c))
+* **webpack.config.js:** 应用ESLint错误提示格式化输出功能 ([da40b72](https://github.com/Oc-master/webpack-build-miniprogram/commit/da40b726f9222cd6461f374a005e105c94e4cae9))
+* **webpack.config.js:** 更改devtool工具为none ([682c12d](https://github.com/Oc-master/webpack-build-miniprogram/commit/682c12d986afba993d5254ef64da8ceb504ece2f))
+
+
+
 ## [1.1.2](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.1.1...v1.1.2) (2020-07-22)
 
 

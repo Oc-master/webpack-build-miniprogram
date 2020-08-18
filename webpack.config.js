@@ -37,6 +37,7 @@ module.exports = {
         options: {
           fix: true,
           cache: false,
+          formatter: require('eslint-friendly-formatter'),
         },
       },
       {

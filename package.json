@@ -15,7 +15,9 @@
     "url": "git+https://github.com/Oc-master/webpack-build-miniprogram.git"
   },
   "keywords": [
-    "webpack"
+    "webpack",
+    "wx",
+    "miniprogram"
   ],
   "author": "O_c",
   "license": "MIT",

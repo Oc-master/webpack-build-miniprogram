@@ -1,3 +1,12 @@
+## [1.1.4](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.1.2...v1.1.4) (2020-08-19)
+
+
+### Features
+
+* **webpack.config.js:** 完成路由功能自动注入功能 ([374b3ba](https://github.com/Oc-master/webpack-build-miniprogram/commit/374b3bacdd0fcabe167892df94f0ea3ca48c7083))
+
+
+
 ## [1.1.3](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.1.2...v1.1.3) (2020-08-18)
 
 

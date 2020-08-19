@@ -94,6 +94,9 @@ module.exports = {
         $routes: applyRoutes(),
       }),
     }),
+    new webpack.ProvidePlugin({
+      'mc.routerTo': ['medusa-wx-router', 'routerTo'],
+    }),
     new MiniCssExtractPlugin({ filename: `[name].${PLATFORM_DICT.style[config.platform]}` }),
     new CopyPlugin([
       {

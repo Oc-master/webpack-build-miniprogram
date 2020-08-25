@@ -1,3 +1,13 @@
+## [1.1.5](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.1.2...v1.1.5) (2020-08-25)
+
+
+### Features
+
+* **package.json:** 锁定自研依赖版本号 添加chalk dayjs progress-bar-webpack-plugin依赖 ([f86b88e](https://github.com/Oc-master/webpack-build-miniprogram/commit/f86b88e5e6b5049d08794a4331c9c380f05ead02))
+* **webpack.config.js:** 添加加载过程提示功能 ([553dc63](https://github.com/Oc-master/webpack-build-miniprogram/commit/553dc631abae21753a567350d486561ce6dadd34))
+
+
+
 ## [1.1.4](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.1.2...v1.1.4) (2020-08-19)
 
 

@@ -1,8 +1,11 @@
 const webpack = require('webpack');
+const chalk = require('chalk');
+const dayjs = require('dayjs');
 const pxtorpx = require('postcss-pxtorpx');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const EntryExtractPlugin = require('entry-extract-webpack-plugin');
 const UiExtractPlugin = require('ui-extract-webpack-plugin');
 const { applyRoutes, isProduction, getConfig } = require('./utils');
@@ -151,6 +154,13 @@ module.exports = {
     new StylelintPlugin({
       files: '**/*.(le|wx|c)ss',
       fix: true,
+    }),
+    new ProgressBarPlugin({
+      summary: false,
+      customSummary: function(buildTime) {
+        console.log(chalk.gray(`\n[${dayjs().format('HH:mm:ss')}]`), chalk.green(`Compiled successfully!(${buildTime})\n`));
+      },
+      format: ':msg :percent (:elapsed seconds)'
     }),
   ],
   optimization: {

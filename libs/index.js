@@ -1,7 +1,7 @@
 const fs = require('fs');
 const yaml = require('js-yaml');
 
-const { CONFIG, DEFAULT_CONFIG, APP_CONFIG } = require('./dicts');
+const { NODE_ENV, CONFIG, DEFAULT_CONFIG, APP_CONFIG } = require('./dicts');
 
 exports.yamlConfig = (function() {
   try {
@@ -47,3 +47,5 @@ exports.routes = (function() {
     return {};
   }
 })();
+
+exports.isProduction = () => NODE_ENV === 'production';

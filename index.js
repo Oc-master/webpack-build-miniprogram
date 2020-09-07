@@ -1,13 +1,12 @@
 #!/usr/bin/env node
-const path = require('path');
 const webpack = require('webpack');
 const shell = require('shelljs');
 const chalk = require('chalk');
 
 const config = require('./webpack.config');
-const { PROJECT_PATH } = require('./dictionary');
+const { DESTINATION } = require('./libs/dicts');
 
-shell.rm('-rf', path.resolve(PROJECT_PATH, 'dist'));
+shell.rm('-rf', DESTINATION);
 
 webpack(config, (err, stats) => {
   if (err) {

@@ -61,7 +61,7 @@ const config = {
     new webpack.BannerPlugin({
       raw: true,
       include: 'app.js',
-      banner: 'const commons = require("./commons");\nconst manifest = require("./manifest");',
+      banner: 'const vendors = require("./vendors");\nconst commons = require("./commons");\nconst manifest = require("./manifest");',
     }),
     new webpack.DefinePlugin({
       mc: JSON.stringify({
@@ -137,12 +137,21 @@ const config = {
   optimization: {
     splitChunks: {
       cacheGroups: {
+        vendors: {
+          chunks: 'initial',
+          name: 'vendors',
+          test: /[\\/]node_modules[\\/]/,
+          minChunks: 3,
+          priority: 20,
+        },
         commons: {
           chunks: 'initial',
           name: 'commons',
+          test: /[\\/](utils|libs|services|api|models|actions|layouts)[\\/]/,
           minSize: 0,
           maxSize: 0,
           minChunks: 3,
+          priority: 15,
         },
       },
     },

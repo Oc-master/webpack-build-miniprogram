@@ -102,7 +102,7 @@ module.exports = {
       'mc.back': ['medusa-wx-router', 'back'],
       'mc.goHome': ['medusa-wx-router', 'goHome'],
     }),
-    new MiniCssExtractPlugin({ filename: `[name]${PLATFORM_DICT[yamlConfig.platform].style}` }),
+    new MiniCssExtractPlugin({ filename: `[name]${PLATFORM_CONFIG[yamlConfig.platform].style}` }),
     new CopyPlugin([
       {
         from: 'assets/',

@@ -8,16 +8,15 @@ const StylelintPlugin = require('stylelint-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const EntryExtractPlugin = require('entry-extract-webpack-plugin');
 const UiExtractPlugin = require('ui-extract-webpack-plugin');
-const { applyRoutes, isProduction, getConfig } = require('./utils');
-const { OPERATING_ENV, PLATFORM_DICT, SOURCE, DESTINATION } = require('./dictionary');
 
-/** Get the config.yaml file content */
-const config = getConfig();
+const { isProduction } = require('./utils');
+const { yamlConfig, routes } = require('./libs');
+const { NODE_ENV, SOURCE, DESTINATION, PLATFORM_CONFIG } = require('./libs/dicts');
 
 module.exports = {
   mode: isProduction() ? 'production' : 'development',
-  devtool: 'none',
   context: SOURCE,
+  devtool: 'none',
   entry: {
     app: './app.js',
   },
@@ -69,7 +68,7 @@ module.exports = {
             options: {
               plugins: [
                 pxtorpx({
-                  multiplier: config.css_unit_ratio,
+                  multiplier: yamlConfig.css_unit_ratio,
                   propList: ['*'],
                 }),
               ],
@@ -83,7 +82,7 @@ module.exports = {
     ],
   },
   plugins: [
-    new EntryExtractPlugin({ templateExt: `.${PLATFORM_DICT.template[config.platform]}` }),
+    new EntryExtractPlugin({ templateExt: `${PLATFORM_CONFIG[yamlConfig.platform].template}` }),
     new UiExtractPlugin({ context: SOURCE }),
     new webpack.BannerPlugin({
       raw: true,
@@ -92,9 +91,9 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       mc: JSON.stringify({
-        $env: OPERATING_ENV,
-        $hosts: config[`${OPERATING_ENV}_host`] || {},
-        $routes: applyRoutes(),
+        $env: NODE_ENV,
+        $hosts: yamlConfig[`${NODE_ENV}_host`] || {},
+        $routes: routes,
       }),
     }),
     new webpack.ProvidePlugin({
@@ -103,7 +102,7 @@ module.exports = {
       'mc.back': ['medusa-wx-router', 'back'],
       'mc.goHome': ['medusa-wx-router', 'goHome'],
     }),
-    new MiniCssExtractPlugin({ filename: `[name].${PLATFORM_DICT.style[config.platform]}` }),
+    new MiniCssExtractPlugin({ filename: `[name]${PLATFORM_DICT[yamlConfig.platform].style}` }),
     new CopyPlugin([
       {
         from: 'assets/',

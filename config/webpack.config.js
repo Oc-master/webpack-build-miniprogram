@@ -1,5 +1,5 @@
 const webpack = require('webpack');
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const chalk = require('chalk');
 const dayjs = require('dayjs');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');

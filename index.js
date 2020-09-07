@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const shell = require('shelljs');
 const chalk = require('chalk');
 
-const config = require('./webpack.config');
+const config = require('./config/webpack.config');
 const { DESTINATION } = require('./libs/dicts');
 
 shell.rm('-rf', DESTINATION);

@@ -10,11 +10,10 @@ const EntryExtractPlugin = require('entry-extract-webpack-plugin');
 const UiExtractPlugin = require('ui-extract-webpack-plugin');
 
 const parts = require('./webpack.part');
-const { yamlConfig, routes, isProduction } = require('../libs');
+const { yamlConfig, routes } = require('../libs');
 const { NODE_ENV, SOURCE, DESTINATION, PLATFORM_CONFIG } = require('../libs/dicts');
 
 const config = {
-  mode: isProduction() ? 'production' : 'development',
   context: SOURCE,
   devtool: 'none',
   entry: {
@@ -150,11 +149,6 @@ const config = {
     runtimeChunk: {
       name: 'manifest',
     },
-  },
-  watch: isProduction() ? false : true,
-  watchOptions: {
-    aggregateTimeout: 800,
-    ignored: /node_modules/,
   },
 };
 

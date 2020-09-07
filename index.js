@@ -1,12 +1,25 @@
 #!/usr/bin/env node
 const webpack = require('webpack');
+const { merge } = require('webpack-merge');
 const shell = require('shelljs');
 const chalk = require('chalk');
 
-const config = require('./config/webpack.config');
-const { DESTINATION } = require('./libs/dicts');
+const commonConfig = require('./config/webpack.common');
+const { NODE_ENV, DESTINATION } = require('./libs/dicts');
 
 shell.rm('-rf', DESTINATION);
+
+const config = (function(mode) {
+  if (mode === 'production') {
+    return merge(commonConfig, { mode });
+  } else {
+    return merge(commonConfig, {
+      mode: 'development',
+      watch: true,
+      watchOptions: { ignored: /node_modules/ },
+    });
+  }
+})(NODE_ENV);
 
 webpack(config, (err, stats) => {
   if (err) {

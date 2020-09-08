@@ -12,6 +12,8 @@ exports.DESTINATION = path.resolve(this.ROOT, 'dist');
 exports.CONFIG = path.resolve(this.ROOT, 'config.yaml');
 /** app.json 配置文件路径 */
 exports.APP_CONFIG = path.resolve(this.SOURCE, 'app.json');
+/** .env 配置文件路径 */
+exports.ENV_CONFIG = path.resolve(this.ROOT, '.env');
 /** 默认配置文件 */
 exports.DEFAULT_CONFIG = {
   platform: 'wx',

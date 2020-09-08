@@ -5,7 +5,8 @@ const shell = require('shelljs');
 const chalk = require('chalk');
 
 const commonConfig = require('./config/webpack.common');
-const { NODE_ENV, DESTINATION } = require('./libs/dicts');
+const { NODE_ENV, DESTINATION, WEBPACK_CONFIG } = require('./libs/dicts');
+const extensionConfig = require(WEBPACK_CONFIG);
 
 shell.rm('-rf', DESTINATION);
 
@@ -14,6 +15,7 @@ const config = (function(mode) {
     return merge([
       commonConfig,
       { mode },
+      extensionConfig,
     ]);
   } else {
     return merge([
@@ -23,6 +25,7 @@ const config = (function(mode) {
         watch: true,
         watchOptions: { ignored: /node_modules/ },
       },
+      extensionConfig,
     ]);
   }
 })(NODE_ENV);

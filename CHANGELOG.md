@@ -1,3 +1,25 @@
+# [1.2.0](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.1.2...v1.2.0) (2020-09-08)
+
+
+### Bug Fixes
+
+* **config/webpack.config.js:** 修复webpack-merge模块导入语法错误问题 ([0c05f0d](https://github.com/Oc-master/webpack-build-miniprogram/commit/0c05f0dd0ab5963f0f3911a2bd5a72b351f79ca3))
+* **webpack.config.js:** 修复字典名称错误导致样式输出失败问题 ([8fe643b](https://github.com/Oc-master/webpack-build-miniprogram/commit/8fe643b2cdd09e11ad698cdaa5510755fe335496))
+
+
+### Features
+
+* 抽离公共策略 ([3a340ec](https://github.com/Oc-master/webpack-build-miniprogram/commit/3a340ec233813c699338bb346c10db6198770ed8))
+* **config/:** 添加样式部件分离功能 ([7a9d238](https://github.com/Oc-master/webpack-build-miniprogram/commit/7a9d23841696034f8b03d64474e47258c8a2caf3))
+* **config/webpack.common.js:** 更改公共抽离策略 ([200376d](https://github.com/Oc-master/webpack-build-miniprogram/commit/200376da7708e7f12a0651c1a1b02c76890b7f08))
+* **libs/dicts.js:** 更改字典存放位置 ([0cafd36](https://github.com/Oc-master/webpack-build-miniprogram/commit/0cafd364c8c7f7491af13d85bd4e5ac8947bc8cf))
+* **libs/index.js:** 调整config.yaml配置对象和routes路由对象生成方法 ([7c76daa](https://github.com/Oc-master/webpack-build-miniprogram/commit/7c76daa1b0522d418acc947380a6e0aaf470136f))
+* **package.json:** 添加webpack-merge依赖 ([b5ef3d7](https://github.com/Oc-master/webpack-build-miniprogram/commit/b5ef3d7eaa6bde19d120cf87e367d6cbc3abe3e0))
+* **webpack.config.js:** 添加routerTo功能自动import功能 ([f0c490a](https://github.com/Oc-master/webpack-build-miniprogram/commit/f0c490a1e1cfd2ef20045c6a7b43fc55cb05a469))
+* **webpack.config.js:** 配合字典及配置对象更改调整 ([37ded29](https://github.com/Oc-master/webpack-build-miniprogram/commit/37ded295b0a8180e12a350ee6d0fa3b230c77a1d))
+
+
+
 ## [1.1.5](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.1.2...v1.1.5) (2020-08-25)
 
 

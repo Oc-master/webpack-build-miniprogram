@@ -8,10 +8,11 @@ const StylelintPlugin = require('stylelint-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const EntryExtractPlugin = require('entry-extract-webpack-plugin');
 const UiExtractPlugin = require('ui-extract-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 const parts = require('./webpack.part');
 const { yamlConfig, routes } = require('../libs');
-const { NODE_ENV, SOURCE, DESTINATION, PLATFORM_CONFIG } = require('../libs/dicts');
+const { NODE_ENV, SOURCE, DESTINATION, PLATFORM_CONFIG, ENV_CONFIG } = require('../libs/dicts');
 
 const config = {
   context: SOURCE,
@@ -132,6 +133,9 @@ const config = {
       summary: false,
       format: ':msg :percent (:elapsed seconds)',
       customSummary: (buildTime) => console.log(chalk.gray(`\n[${dayjs().format('HH:mm:ss')}]`), chalk.green(`Compiled successfully!(${buildTime})\n`)),
+    }),
+    new Dotenv({
+      path: ENV_CONFIG,
     }),
   ],
   optimization: {

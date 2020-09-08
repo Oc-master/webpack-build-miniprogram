@@ -1,7 +1,7 @@
 const path = require('path');
 
 /** 环境变量 */
-exports.NODE_ENV = process.argv.splice(2, 1);
+exports.NODE_ENV = process.argv.splice(2, 1)[0];
 /** 项目路径 */
 exports.ROOT = process.cwd();
 /** 源代码存放路径 */

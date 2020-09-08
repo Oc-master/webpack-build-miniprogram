@@ -155,7 +155,7 @@ const config = {
           minSize: 0,
           maxSize: 0,
           minChunks: 3,
-          priority: 15,
+          priority: 10,
         },
       },
     },

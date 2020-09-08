@@ -11,13 +11,19 @@ shell.rm('-rf', DESTINATION);
 
 const config = (function(mode) {
   if (mode === 'production') {
-    return merge(commonConfig, { mode });
+    return merge([
+      commonConfig,
+      { mode },
+    ]);
   } else {
-    return merge(commonConfig, {
-      mode: 'development',
-      watch: true,
-      watchOptions: { ignored: /node_modules/ },
-    });
+    return merge([
+      commonConfig,
+      {
+        mode: 'development',
+        watch: true,
+        watchOptions: { ignored: /node_modules/ },
+      },
+    ]);
   }
 })(NODE_ENV);
 

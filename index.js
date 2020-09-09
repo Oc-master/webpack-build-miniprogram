@@ -4,8 +4,8 @@ const { merge } = require('webpack-merge');
 const shell = require('shelljs');
 const chalk = require('chalk');
 
-const commonConfig = require('./config/webpack.common');
 const { NODE_ENV, DESTINATION, WEBPACK_CONFIG } = require('./libs/dicts');
+const commonConfig = require('./config/webpack.common');
 const extensionConfig = require(WEBPACK_CONFIG);
 
 shell.rm('-rf', DESTINATION);

@@ -134,7 +134,7 @@ const config = {
       format: ':msg :percent (:elapsed seconds)',
       customSummary: (buildTime) => console.log(chalk.gray(`\n[${dayjs().format('HH:mm:ss')}]`), chalk.green(`Compiled successfully!(${buildTime})\n`)),
     }),
-    new Dotenv({ path: ENV_CONFIG }),
+    new Dotenv({ path: ENV_CONFIG, silent: true }),
   ],
   optimization: {
     splitChunks: {

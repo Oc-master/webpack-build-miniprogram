@@ -1,7 +1,7 @@
 const path = require('path');
 
 /** 环境变量 */
-exports.NODE_ENV = process.argv.splice(2, 1);
+exports.NODE_ENV = process.argv.splice(2, 1)[0];
 /** 项目路径 */
 exports.ROOT = process.cwd();
 /** 源代码存放路径 */
@@ -10,6 +10,10 @@ exports.SOURCE = path.resolve(this.ROOT, 'src');
 exports.DESTINATION = path.resolve(this.ROOT, 'dist');
 /** 配置文件路径 */
 exports.CONFIG = path.resolve(this.ROOT, 'config.yaml');
+/** .env 配置文件路径 */
+exports.ENV_CONFIG = path.resolve(this.ROOT, '.env');
+/** webpack 扩展配置文件路径 */
+exports.WEBPACK_CONFIG = path.resolve(this.ROOT, 'webpack.config.js');
 /** app.json 配置文件路径 */
 exports.APP_CONFIG = path.resolve(this.SOURCE, 'app.json');
 /** 默认配置文件 */

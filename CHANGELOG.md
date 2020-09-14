@@ -1,3 +1,22 @@
+## [1.2.1](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.1.2...v1.2.1) (2020-09-14)
+
+
+### Bug Fixes
+
+* **libs/dicts.js:** 修复NODE_ENV变量读取有误问题 ([d82daee](https://github.com/Oc-master/webpack-build-miniprogram/commit/d82daee6d2083ffc7e545fd24cbdaf40ae2f1c4d))
+
+
+### Features
+
+* **config/webpack.common.js:** 关闭.env文件读取异常提示功能 ([2f27d6f](https://github.com/Oc-master/webpack-build-miniprogram/commit/2f27d6f8915e01c1169d1e3740b14e0d49a81da6))
+* **config/webpack.common.js:** 添加读取公共env文件生成全局变量功能 ([5aaccbc](https://github.com/Oc-master/webpack-build-miniprogram/commit/5aaccbc0b606c4dc1af0df5fae3fc267fd170c2c))
+* **config/webpack.common.js:** 调整commons模块打包优先级 ([0a3cff4](https://github.com/Oc-master/webpack-build-miniprogram/commit/0a3cff4031f7d1252603f9291694b8e6ba1a82ba))
+* **libs/dicts.js:** 添加env文件路径字典 ([abc2691](https://github.com/Oc-master/webpack-build-miniprogram/commit/abc2691b06b76e3da77420af6f1bad152ca7d57a))
+* **package.json:** 添加dotenv-webpack工具 ([50d997d](https://github.com/Oc-master/webpack-build-miniprogram/commit/50d997d62906eb77a54dcbe184194204b12d61f5))
+* 添加读取webpack扩展配置功能 ([3fe5ba6](https://github.com/Oc-master/webpack-build-miniprogram/commit/3fe5ba615d005f1cce78ff3ef6bb63de12a87e64))
+
+
+
 # [1.2.0](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.1.2...v1.2.0) (2020-09-08)
 
 

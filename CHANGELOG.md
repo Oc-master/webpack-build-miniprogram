@@ -1,3 +1,12 @@
+## [1.2.2](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.1.2...v1.2.2) (2020-09-16)
+
+
+### Features
+
+* **package.json:** 更新entry-extract-webpack-plugin依赖包版本号 ([b95c8b1](https://github.com/Oc-master/webpack-build-miniprogram/commit/b95c8b17f03fc55939561d23030601a297bdd6d1))
+
+
+
 ## [1.2.1](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.1.2...v1.2.1) (2020-09-14)
 
 

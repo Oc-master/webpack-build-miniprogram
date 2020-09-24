@@ -29,6 +29,7 @@ const config = {
     alias: {
       '@': SOURCE,
     },
+    extensions: ['.js', '.ts', '.json'],
   },
   module: {
     rules: [

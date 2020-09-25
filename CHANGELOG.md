@@ -1,3 +1,13 @@
+## [1.2.3](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.1.2...v1.2.3) (2020-09-25)
+
+
+### Features
+
+* **config/webpack.common.js:** 添加自动加载文件别名.ts ([1d1ac6f](https://github.com/Oc-master/webpack-build-miniprogram/commit/1d1ac6f9d15cc3870c6386ff69aede7ade30ca38))
+* **package.json:** 添加typescript和ts-loader依赖包 ([c7fe7bd](https://github.com/Oc-master/webpack-build-miniprogram/commit/c7fe7bdfd710debf023a6949dd84bdd446417c6a))
+
+
+
 ## [1.2.2](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.1.2...v1.2.2) (2020-09-16)
 
 

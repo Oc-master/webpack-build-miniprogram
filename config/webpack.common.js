@@ -9,9 +9,10 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const EntryExtractPlugin = require('entry-extract-webpack-plugin');
 const UiExtractPlugin = require('ui-extract-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
+const CommonBannerPlugin = require('../plugins/common_banner_plugin');
 
 const parts = require('./webpack.part');
-const { yamlConfig, routes } = require('../libs');
+const { yamlConfig, routes, packages } = require('../libs');
 const { NODE_ENV, SOURCE, DESTINATION, PLATFORM_CONFIG, ENV_CONFIG } = require('../libs/dicts');
 
 const config = {
@@ -65,6 +66,7 @@ const config = {
   plugins: [
     new EntryExtractPlugin({ templateExt: `${PLATFORM_CONFIG[yamlConfig.platform].template}` }),
     new UiExtractPlugin({ context: SOURCE }),
+    new CommonBannerPlugin({ include: packages }),
     new webpack.BannerPlugin({
       raw: true,
       include: 'app.js',
@@ -175,4 +177,5 @@ module.exports = merge([
     reg: /\.less$/,
     use: ['less-loader'],
   }),
+  parts.loadCommons(packages),
 ]);

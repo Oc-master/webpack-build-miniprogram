@@ -3,17 +3,17 @@ const yaml = require('js-yaml');
 
 const { CONFIG, DEFAULT_CONFIG, APP_CONFIG } = require('./dicts');
 
-exports.yamlConfig = (function() {
+exports.yamlConfig = (function () {
   try {
     /** 将 yaml 格式的内容解析为 object 对象 */
     const config = yaml.load(fs.readFileSync(CONFIG, { encoding: 'utf-8' }));
     return config;
-  } catch(error) {
+  } catch (error) {
     return DEFAULT_CONFIG;
   }
 })();
 
-exports.routes = (function() {
+exports.routes = (function () {
   try {
     const routes = {};
     const content = JSON.parse(fs.readFileSync(APP_CONFIG, { encoding: 'utf-8' }));
@@ -43,7 +43,20 @@ exports.routes = (function() {
       });
     });
     return routes;
-  } catch(error) {
+  } catch (error) {
     return {};
+  }
+})();
+
+exports.packages = (function () {
+  try {
+    const content = JSON.parse(fs.readFileSync(APP_CONFIG, { encoding: 'utf-8' }));
+    const { subpackages = [] } = content;
+    const { length: subpackagesLength } = subpackages;
+    if (!subpackagesLength) return [];
+    const packages = subpackages.map((subpackage) => subpackage.root);
+    return packages;
+  } catch (error) {
+    return [];
   }
 })();

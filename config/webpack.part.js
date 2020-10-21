@@ -19,3 +19,27 @@ exports.loadCSS = ({ reg = /\.css$/, include, exclude, use = [] }) => ({
     }],
   },
 });
+
+exports.loadCommons = (packages) => {
+  const { length } = packages;
+  if (!length) return {};
+  const cacheGroups = packages.reduce((acc, item) => {
+    return {
+      ...acc,
+      [`${item}Commons`]: {
+        chunks: 'initial',
+        name: `${item}/packageCommons`,
+        test: new RegExp(`[\\/]${item}[\\/]`),
+        minSize: 0,
+        maxSize: 0,
+        minChunks: 3,
+        priority: 15,
+      },
+    };
+  }, {});
+  return {
+    optimization: {
+      splitChunks: { cacheGroups },
+    },
+  };
+};

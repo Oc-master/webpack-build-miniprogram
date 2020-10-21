@@ -1,3 +1,13 @@
+## [1.2.4](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.1.2...v1.2.4) (2020-10-21)
+
+
+### Features
+
+* 完成CommonBannerPlugin应用 ([b03ec5b](https://github.com/Oc-master/webpack-build-miniprogram/commit/b03ec5befe1eab08e02d1ca33a781eebac87e477))
+* **plugins/:** 完成CommonBannerPlugin插件 ([354d1cf](https://github.com/Oc-master/webpack-build-miniprogram/commit/354d1cf247820d0ad11e3cf210bcf9f63b92c2ff))
+
+
+
 ## [1.2.3](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.1.2...v1.2.3) (2020-09-25)
 
 

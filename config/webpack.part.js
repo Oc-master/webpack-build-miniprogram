@@ -29,7 +29,7 @@ exports.loadCommons = (packages) => {
       [`${item}Commons`]: {
         chunks: 'initial',
         name: `${item}/packageCommons`,
-        test: new RegExp(`[\\/]${item}[\\/]`),
+        test: new RegExp(`[\\\\/]${item}[\\\\/]`),
         minSize: 0,
         maxSize: 0,
         minChunks: 3,

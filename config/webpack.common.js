@@ -80,6 +80,7 @@ const config = {
       }),
     }),
     new webpack.ProvidePlugin({
+      Toast: 'medusa-wx-toast',
       'mc.routerTo': ['medusa-wx-router', 'routerTo'],
       'mc.decoding': ['medusa-wx-router', 'decoding'],
       'mc.back': ['medusa-wx-router', 'back'],

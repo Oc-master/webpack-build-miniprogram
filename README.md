@@ -2,13 +2,16 @@
 
 一套即开即用的微信小程序构建方案，应用 webpack 构建工具为原生小程序项目提供扩展能力，该工具提供了以下能力：
 
+- 环境分割，域名自动切换功能
 - 路径别名 @ 功能，@ 符号指代 src 目录
 - 样式预编译功能，提供 less 语法转换与单位 px 转换 rpx 功能
-- 编码规范检测功能，提供 ESLint 和 StyleLint 检查功能
-- 提供常用全局变量 `mc` 访问功能，详细属性请见下方
-- 路由工具包注入功能，需在微信小程序项目中下载 `medusa-wx-router` 包
+- 提供常用全局变量访问功能，详细变量请见下文
+- 路由工具包自动注入功能，需在微信小程序项目中下载 `medusa-wx-router` 包
+- Toast 常用提示工具包自动注入功能，需在微信小程序项目中下载 `medusa-wx-toast` 包
 - 环境变量读取功能，提供 `.env` 文件配置功能
 - webpack 配置扩展功能
+- 编码规范检测功能，提供 ESLint 和 StyleLint 检查功能
+- Git 提交 message 检测功能
 
 ## Installation
 
@@ -21,41 +24,58 @@ $ npm install webpack-build-miniprogram --save-dev
 请将小程序的源代码放置在 `src` 文件夹下，配置以下脚本命令，即可使用本套构建工具。推荐使用下方展示的目录结构，以获得更好的开发体验：
 
 ```
-|-- dist                        编译结果目录
-|-- src                         源代码目录
-|   |-- app.js                  项目入口文件
-|   |-- app.json                小程序配置文件
-|   |-- sitemap.json            sitemap配置文件
-|   |-- assets                  静态资源存放目录
+|-- dist                            编译结果目录
+|-- src                             源代码目录
+|   |-- app.js                      项目入口文件
+|   |-- app.json                    小程序配置文件
+|   |-- sitemap.json                小程序配置文件
+|   |-- assets                      静态资源存放目录
+|   |   |-- images
+|   |       |-- commons
+|   |       |   |-- error_rockets.png
+|   |       |-- icons
+|   |           |-- .gitkeep
+|   |-- components                  公共组件存放目录
+|   |   |-- base                    基础能力组件
+|   |       |-- Layout
+|   |       |-- Loading
+|   |       |-- Skeleton
+|   |       |-- ErrorPage
+|   |-- dicts                       公共字典存放目录
 |   |   |-- .gitkeep
-|   |-- components              公共组件存放目录
+|   |-- libs                        第三方工具库存放目录（外部引入）
 |   |   |-- .gitkeep
-|   |-- dicts                   公共字典存放目录
-|   |   |-- .gitkeep
-|   |-- libs                    第三方工具库存放目录（外部引入）
-|   |   |-- .gitkeep
-|   |-- pages                   页面文件存放目录
+|   |-- pages                       页面存放目录
 |   |   |-- index
 |   |       |-- index.js
 |   |       |-- index.json
 |   |       |-- index.less
 |   |       |-- index.wxml
-|   |-- scripts                 公共脚本存放目录（wxs）
+|   |-- scripts                     公共脚本存放目录（wxs）
 |   |   |-- .gitkeep
-|   |-- services                API服务存放目录
+|   |-- services                    API服务存放目录
 |   |   |-- .gitkeep
 |   |-- styles
-|   |   |-- index.less          项目总通用样式
-|   |   |-- theme.less          项目主题样式
-|   |-- templates               公共模板存放目录
+|   |   |-- index.less              项目公共样式类文件
+|   |   |-- theme.less              项目主题样式（变量 or mixin）
+|   |-- templates                   公共模板存放目录
 |   |   |-- .gitkeep
-|   |-- utils                   公共封装函数存放目录（自我封装）
-|       |-- .gitkeep
-|-- config.yaml                 编译配置文件
-|-- .env                        环境变量配置文件
-|-- webpack.config.js           webpack 配置扩展文件
-|-- project.config.json         开发者工具配置文件
-└── package.json
+|   |-- utils                       公共封装函数存放目录（自我封装）
+|       |-- base.js                 基础能力
+|       |-- request.js              基础请求功能
+|-- .editorconfig                   EditorConfig     配置文件
+|-- .env                            环境变量配置文件
+|-- .eslintignore
+|-- .eslintrc
+|-- .gitignore
+|-- .stylelintignore
+|-- .stylelintrc
+|-- commitlint.config.js
+|-- config.yaml                     编译配置文件
+|-- jsconfig.json
+|-- package.json
+|-- project.config.json             微信开发者工具项目配置文件
+└── webpack.config.js               webpack 配置扩展文件
 ```
 
 ### npm script
@@ -98,11 +118,11 @@ css_unit_ratio: 1
 
 ## Global Variable
 
-该工具当中注入了一个全局对象 `mc` ，它包含了三个属性：
+该工具当中注入了三个常用全局变量：
 
-* `$env`：运行时环境变量，对应了脚本中配置的 {env} 的值
-* `$routes`：路由映射字典，该字典中的每个`key`取自`pages`文件夹的名称，`value`取自`app.json`中的配置，你可以通过`mc.$routes.index`来替代`pages/index/index`字符串。
-* `$hosts`：域名配置对象，当项目根目录中没有配置`config.yaml`时，该对象是一个没有属性的空对象。存在配置文件时，构建工具会根据环境自动将配置读取到对象中，上述例子配置文件中，你可以使用`mc.$hosts.api`访问到`https://www.miniprogram.dev.com`域名。
+* `MS_ENV`：运行时环境变量，对应了脚本中配置的 {env} 的值
+* `MS_ROUTES`：路由映射字典，该字典中的每个`key`取自`pages`文件夹的名称，`value`取自`app.json`中的配置，你可以通过`MS_ROUTES.index`来替代`pages/index/index`字符串。
+* `MS_HOSTS`：域名配置对象，当项目根目录中没有配置`config.yaml`时，该对象是一个没有属性的空对象。存在配置文件时，构建工具会根据环境自动将配置读取到对象中，上述例子配置文件中，你可以使用`MS_HOSTS.api`访问到`https://www.miniprogram.dev.com`域名。
 
 ## License
 

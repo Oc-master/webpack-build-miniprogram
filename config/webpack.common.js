@@ -73,18 +73,16 @@ const config = {
       banner: 'const vendors = require("./vendors");\nconst commons = require("./commons");\nconst manifest = require("./manifest");',
     }),
     new webpack.DefinePlugin({
-      mc: JSON.stringify({
-        $env: NODE_ENV,
-        $hosts: yamlConfig[`${NODE_ENV}_host`] || {},
-        $routes: routes,
-      }),
+      MS_ENV: JSON.stringify(NODE_ENV),
+      MS_HOSTS: JSON.stringify(yamlConfig[`${NODE_ENV}_host`] || {}),
+      MS_ROUTES: JSON.stringify(routes),
     }),
     new webpack.ProvidePlugin({
       Toast: 'medusa-wx-toast',
-      'mc.routerTo': ['medusa-wx-router', 'routerTo'],
-      'mc.decoding': ['medusa-wx-router', 'decoding'],
-      'mc.back': ['medusa-wx-router', 'back'],
-      'mc.goHome': ['medusa-wx-router', 'goHome'],
+      'ms.routerTo': ['medusa-wx-router', 'routerTo'],
+      'ms.decoding': ['medusa-wx-router', 'decoding'],
+      'ms.back': ['medusa-wx-router', 'back'],
+      'ms.goHome': ['medusa-wx-router', 'goHome'],
     }),
     new MiniCssExtractPlugin({ filename: `[name]${PLATFORM_CONFIG[yamlConfig.platform].style}` }),
     new CopyPlugin([

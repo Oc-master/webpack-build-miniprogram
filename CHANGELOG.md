@@ -1,3 +1,17 @@
+# [2.0.0](https://github.com/Oc-master/webpack-build-miniprogram/compare/1.3.0...2.0.0) (2021-01-05)
+
+
+### Bug Fixes
+
+* **config/webpack.common.js:** 修复MS_ROUTES无法正常读取问题 ([96c2528](https://github.com/Oc-master/webpack-build-miniprogram/commit/96c25282151a1e7cf3bf24029e94756d2450b68e))
+
+
+### Features
+
+* 更换全局变量、路由函数前置命名 ([b9359fb](https://github.com/Oc-master/webpack-build-miniprogram/commit/b9359fbd8d7968b44b12f979d871aff465ff8cf1))
+
+
+
 # [1.3.0](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.1.2...v1.3.0) (2021-01-05)
 
 

@@ -75,7 +75,7 @@ const config = {
     new webpack.DefinePlugin({
       MS_ENV: JSON.stringify(NODE_ENV),
       MS_HOSTS: JSON.stringify(yamlConfig[`${NODE_ENV}_host`] || {}),
-      MS_ROUTES: routes,
+      MS_ROUTES: JSON.stringify(routes),
     }),
     new webpack.ProvidePlugin({
       Toast: 'medusa-wx-toast',

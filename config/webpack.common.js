@@ -80,11 +80,13 @@ const config = {
       }),
     }),
     new webpack.ProvidePlugin({
-      Toast: 'medusa-wx-toast',
       'mc.routerTo': ['medusa-wx-router', 'routerTo'],
       'mc.decoding': ['medusa-wx-router', 'decoding'],
       'mc.back': ['medusa-wx-router', 'back'],
       'mc.goHome': ['medusa-wx-router', 'goHome'],
+    }),
+    new webpack.ProvidePlugin({
+      Toast: 'medusa-wx-toast',
     }),
     new MiniCssExtractPlugin({ filename: `[name]${PLATFORM_CONFIG[yamlConfig.platform].style}` }),
     new CopyPlugin([

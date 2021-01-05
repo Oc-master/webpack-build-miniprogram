@@ -1,3 +1,17 @@
+# [1.3.0](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.1.2...v1.3.0) (2021-01-05)
+
+
+### Bug Fixes
+
+* **config.webpack.part.js:** 修复windows系统下分包公共提取部分功能正则异常问题 ([dc7e132](https://github.com/Oc-master/webpack-build-miniprogram/commit/dc7e1324339384e047ffd59355c5ebf120d5aa73))
+
+
+### Features
+
+* **config/webpack.common.js:** 完成medusa-wx-toast自动注入功能 ([4d992bc](https://github.com/Oc-master/webpack-build-miniprogram/commit/4d992bcd1e438fa28dcd439e6b5d479d5955ca84))
+
+
+
 ## [1.2.4](https://github.com/Oc-master/webpack-build-miniprogram/compare/v1.1.2...v1.2.4) (2020-10-21)
 
 

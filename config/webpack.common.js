@@ -36,7 +36,7 @@ const config = {
     rules: [
       {
         test: /\.ms$/,
-        loader: '@medusa/medusa-loader',
+        loader: 'medusa-loader',
         options: {
           path: require('path').resolve(ROOT, './'),
           css_unit_ratio: yamlConfig.css_unit_ratio,

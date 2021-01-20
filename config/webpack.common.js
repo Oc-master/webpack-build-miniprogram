@@ -13,7 +13,7 @@ const CommonBannerPlugin = require('../plugins/common_banner_plugin');
 
 const parts = require('./webpack.part');
 const { yamlConfig, routes, packages } = require('../libs');
-const { NODE_ENV, SOURCE, DESTINATION, PLATFORM_CONFIG, ENV_CONFIG } = require('../libs/dicts');
+const { NODE_ENV, SOURCE, DESTINATION, PLATFORM_CONFIG, ENV_CONFIG, ROOT } = require('../libs/dicts');
 
 const config = {
   context: SOURCE,
@@ -34,6 +34,14 @@ const config = {
   },
   module: {
     rules: [
+      {
+        test: /\.ms$/,
+        loader: '@medusa/medusa-loader',
+        options: {
+          path: require('path').resolve(ROOT, './'),
+          css_unit_ratio: yamlConfig.css_unit_ratio,
+        },
+      },
       {
         enforce: 'pre',
         test: /\.js$/,

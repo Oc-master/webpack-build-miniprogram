@@ -1,3 +1,12 @@
+## [2.0.2](https://github.com/Oc-master/webpack-build-miniprogram/compare/2.0.1...2.0.2) (2021-01-20)
+
+
+### Bug Fixes
+
+* **config/webpack.common.js:** 修复medusa-loader引用问题 ([d0c406e](https://github.com/Oc-master/webpack-build-miniprogram/commit/d0c406ea0950060ed60dd4e61dc963c2cea4bca4))
+
+
+
 ## [2.0.1](https://github.com/Oc-master/webpack-build-miniprogram/compare/2.0.0...2.0.1) (2021-01-20)
 
 

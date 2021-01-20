@@ -14,6 +14,7 @@ const CommonBannerPlugin = require('../plugins/common_banner_plugin');
 const parts = require('./webpack.part');
 const { yamlConfig, routes, packages } = require('../libs');
 const { NODE_ENV, SOURCE, DESTINATION, PLATFORM_CONFIG, ENV_CONFIG, ROOT } = require('../libs/dicts');
+const { platform } = require('eslint-friendly-formatter/process');
 
 const config = {
   context: SOURCE,
@@ -39,6 +40,7 @@ const config = {
         loader: '@medusa/medusa-loader',
         options: {
           path: path.resolve(ROOT, './'),
+          css_unit_ratio: platform.css_unit_ratio,
         },
       },
       {

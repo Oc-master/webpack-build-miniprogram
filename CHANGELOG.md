@@ -1,3 +1,19 @@
+## [2.0.1](https://github.com/Oc-master/webpack-build-miniprogram/compare/2.0.0...2.0.1) (2021-01-20)
+
+
+### Bug Fixes
+
+* **config/webpack.common.js:** 修复medusa-loader配置参数配置错误问题 ([867ab75](https://github.com/Oc-master/webpack-build-miniprogram/commit/867ab751141bfe772fa71ecdd6e92fab94c50344))
+
+
+### Features
+
+* **config/webpack.common.js:** 添加ms文件解析loader ([54bc9f5](https://github.com/Oc-master/webpack-build-miniprogram/commit/54bc9f534e14b07e98a923597bb2005eabcdd6e6))
+* **package.json:** 升级依赖 ([ee98e9e](https://github.com/Oc-master/webpack-build-miniprogram/commit/ee98e9e3d66ae6e86669f7cff6d7f503c255bbe7))
+* **webpack.config.js:** 更新medusa-loader配置 ([f5c15f0](https://github.com/Oc-master/webpack-build-miniprogram/commit/f5c15f00e111523bd5f2e9f40a76463021c6ac33))
+
+
+
 # [2.0.0](https://github.com/Oc-master/webpack-build-miniprogram/compare/1.3.0...2.0.0) (2021-01-05)
 
 

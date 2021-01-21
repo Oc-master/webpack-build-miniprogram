@@ -1,3 +1,12 @@
+## [2.0.3](https://github.com/Oc-master/webpack-build-miniprogram/compare/2.0.2...2.0.3) (2021-01-21)
+
+
+### Features
+
+* **package.json:** 升级medusa-loader依赖 ([d60cbdc](https://github.com/Oc-master/webpack-build-miniprogram/commit/d60cbdcbdf0478760bdda38c4e649ad60d9e1f7e))
+
+
+
 ## [2.0.2](https://github.com/Oc-master/webpack-build-miniprogram/compare/2.0.1...2.0.2) (2021-01-20)
 
 

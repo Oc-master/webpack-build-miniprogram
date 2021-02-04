@@ -12,7 +12,7 @@ const Dotenv = require('dotenv-webpack');
 const CommonBannerPlugin = require('../plugins/common_banner_plugin');
 
 const parts = require('./webpack.part');
-const { yamlConfig, routes, packages } = require('../libs');
+const { yamlConfig, routes, packages, routesConfig } = require('../libs');
 const { NODE_ENV, SOURCE, DESTINATION, PLATFORM_CONFIG, ENV_CONFIG, ROOT } = require('../libs/dicts');
 
 const config = {
@@ -81,9 +81,9 @@ const config = {
       banner: 'const vendors = require("./vendors");\nconst commons = require("./commons");\nconst manifest = require("./manifest");',
     }),
     new webpack.DefinePlugin({
+      ...routesConfig,
       MS_ENV: JSON.stringify(NODE_ENV),
       MS_HOSTS: JSON.stringify(yamlConfig[`${NODE_ENV}_host`] || {}),
-      MS_ROUTES: JSON.stringify(routes),
     }),
     new webpack.ProvidePlugin({
       Toast: 'medusa-wx-toast',

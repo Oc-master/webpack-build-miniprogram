@@ -1,6 +1,6 @@
 {
   "name": "webpack-build-miniprogram",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "基于webpack的小程序构建策略",
   "main": "index.js",
   "bin": {

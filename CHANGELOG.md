@@ -1,3 +1,13 @@
+## [2.0.4](https://github.com/Oc-master/webpack-build-miniprogram/compare/2.0.3...2.0.4) (2021-02-04)
+
+
+### Features
+
+* **libs/index.js:** 分解MS_ROUTES常量,减小构建体积 ([798ae10](https://github.com/Oc-master/webpack-build-miniprogram/commit/798ae10f74f22e742ecf8e025cb32f1f14fa3eb4))
+* **libs/index.js:** 封装函数错误捕获添加提示功能 ([071c626](https://github.com/Oc-master/webpack-build-miniprogram/commit/071c6268e8c5e28b1f4340c6660150b72a39d2c8))
+
+
+
 ## [2.0.3](https://github.com/Oc-master/webpack-build-miniprogram/compare/2.0.2...2.0.3) (2021-01-21)
 
 

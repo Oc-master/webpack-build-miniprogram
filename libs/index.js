@@ -15,6 +15,7 @@ exports.yamlConfig = (function () {
     const config = yaml.load(fs.readFileSync(CONFIG, { encoding: 'utf-8' }));
     return config;
   } catch (error) {
+    errorLog(error);
     return DEFAULT_CONFIG;
   }
 })();
@@ -50,6 +51,7 @@ exports.routes = (function () {
     });
     return routes;
   } catch (error) {
+    errorLog(error);
     return {};
   }
 })();
@@ -63,6 +65,7 @@ exports.packages = (function () {
     const packages = subpackages.map((subpackage) => subpackage.root);
     return packages;
   } catch (error) {
+    errorLog(error);
     return [];
   }
 })();
@@ -99,7 +102,8 @@ exports.routesConfig = (function () {
       Object.assign(routesConfig, { [`MS_ROUTES.${root}`]: JSON.stringify(subPackageRoutes) });
     });
     return routesConfig;
-  } catch (err) {
-    errorLog(err);
+  } catch (error) {
+    errorLog(error);
+    return {};
   }
 })();
